@@ -42,33 +42,6 @@
             <br>
         </div>
 
-        <script type="text/javascript">
-            function selectDepartment(answer) {
-                document.getElementById('departmentSelection').classList.remove('d-none');
-                document.getElementById('subjectSelection').classList.remove('d-none');
-                if(answer.value == 1) {
-                    document.getElementById('cetDept').classList.remove('d-none');
-                    document.getElementById('plmbsDept').classList.add('d-none');
-                    document.getElementById('plmbsDept').selectedIndex = 0;
-                    document.getElementById('cetDeptSubject').classList.remove('d-none');
-                    document.getElementById('plmbsDeptSubject').classList.add('d-none');
-                }
-                else if (answer.value == 2) {
-                    document.getElementById('plmbsDept').classList.remove('d-none');
-                    document.getElementById('cetDept').classList.add('d-none');
-                    document.getElementById('cetDept').selectedIndex = 0;
-                    document.getElementById('cetDeptSubject').classList.add('d-none');
-                    document.getElementById('plmbsDeptSubject').classList.remove('d-none');
-                }
-            };
-            function clearBoxes() {
-                boxes = document.getElementsByName('clearValue');
-                for (var i = 0; i < boxes.length; i++) {
-                    boxes[i].checked = false;
-                }
-            }
-        </script>
-
         <div class="form-group d-none" id="departmentSelection">
             <label for="">Department:</label>
             <select name="inputDepartment" id="cetDept" class="form-control d-none">
@@ -116,23 +89,26 @@
         <div class="form-group" form action="/action_page.php">
             <label for="">Day and Time Availability:</label>
             <hr>
-            <label for="">Day</label>
-            <select name="inputDay" class="form-control" style="width:165px">
-                <option selected disabled="true" >-----Select Day-----</option>
-                <option>Monday</option>
-                <option>Tueday</option>
-                <option>Wednesday</option>
-                <option>Thursday</option>
-                <option>Friday</option>
-                <option>Saturday</option>
-            </select>
-            <label for="">Start Time</label>
-            <input type="time">
-            <br>
-            <label for="">End Time:</label>
-            <input type="time">
+            <div id="row">
+                <label for="">Day</label>
+                <select class="form-control" style="width:165px" name="day1">
+                    <option selected disabled="true" >-----Select Day-----</option>
+                    <option>Monday</option>
+                    <option>Tueday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                </select>
+                <label for="">Start Time</label>
+                <input type="time" name="stime1">
+                <br>
+                <label for="">End Time:</label>
+                <input type="time" name="etime1">
+                <br>
+            </div>
             <hr>
-            <button class="btn btn-primary" type="addDateTimeEntry">Add Another</button>
+            <a href="#" class="btn btn-primary" onclick="addDiv()">&plus; Add Another Schedule</a>
             <br>
             <hr>
         </div>
