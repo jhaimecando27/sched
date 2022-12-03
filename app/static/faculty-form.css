@@ -1,0 +1,39 @@
+html,
+body {
+    background-color: #8673b4;
+    background-image: linear-gradient(to bottom right, #dbd4ebff, #8673b4);
+    height: 100%;
+    overflow: hidden;
+}
+
+body>div.container {
+    height: 100%;
+    min-width: fit-content;
+    width: 75%;
+    display: grid;
+    grid-template-columns: auto;
+    align-items: start;
+    overflow: scroll;
+    padding: 42px;
+}
+
+.form-outline {
+    width: auto;
+}
+
+button[type=submit] {
+    background-color: #1063b1ff;
+    background-image: linear-gradient(to right, #70a4d5ff, #1063b1ff);
+}
+
+@media (max-width: 950px) {
+    body>div.container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 769px) {
+    body>div.container {
+        padding: 42px 0;
+    }
+}

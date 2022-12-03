@@ -15,16 +15,16 @@ def login_user(request):
         # Redirect to a success page.
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('/')
+            #return redirect('home')
         
         # Return an error message.
         else:
-            messages.error(request, ("Incorrect email or password."))
-            return redirect('login')
+            messages.info(request, ("Incorrect username or password."))
+            return redirect('home')
 
-    # If user entered the website
-    return render(request, 'account/login_user.html', {})
-
+    else:
+        return render(request, 'home/home.html')
 
 # Ref 1: https://docs.djangoproject.com/en/4.1/topics/auth/default/#how-to-log-a-user-out
 def logout_user(request):

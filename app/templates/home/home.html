@@ -9,26 +9,27 @@
     <title>Class Scheduling System</title>
     <meta name='viewport' content='width=device-width, initial-scale=1, height=device-height'>
 
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
         rel="stylesheet">
+    <!-- Custom CSS !important -->
 
     <link rel="stylesheet" href="{% static 'home.css' %}">
     <link rel="stylesheet" href="{% static 'custom.css'%}">
+
 </head>
 
 <body>
-    <section class="gradient-form">
-        <div class="card pop-up">
+    <div class="gradient-form">
+        <div class="card">
             <div class="card-body p-md-5" id="info-section">
                 <h3 class="card-title mb-5">From the Javawockeez Team</h3>
                 <p class="card-text">
@@ -40,45 +41,45 @@
             </div>
             <div class="card-body p-md-5" id="form-section">
                 <div class="text-center">
-
-                    <img src="{% static 'images/css-logo.png' %}" alt="PLM logo"
-                    
-                        style="height: 110px; width:auto;" class="mb-2">
+                    <img src="{% static 'images/css-logo.png' %}" alt="PLM logo" style="height: 110px; width:auto;" class="mb-2">
                     <h2 class="card-title">Let's get started!</h2>
                 </div>
                 <p class="mt-5">Please log in to your account</p>
 
-                <form action="post" method="#authenticate-credentials!">
-                    <div class="input-group my-4">
-                        <span class="input-group-text border-0"><i class="fas fa-landmark fa-lg"></i></span>
-                        <div class="form-outline">
-                            <input type="text" id="school-name" class="form-control form-control-lg" name="school-name"
-                                required placeholder="e.g. PAMANTASAN NG LUNGSOD NG MAYNILA" value="" />
-
-                            <label class="form-label" for="school-name">Complete School Name</label>
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    <div class="input-group my-4 align-items-center">
+                        <span class="input-group-text border-0"><i class="fas fa-user fa-lg"></i></span>
+                        <div class="form-outline rounded">
+                            <input type="text" class="form-control form-control-lg rounded" name="inputUsername" required
+                                value="" />
+                            <label class="form-label" for="username" name="username">Username</label>
                         </div>
                     </div>
-                    <div class="input-group mb-4">
+                    <div class="input-group mb-4 align-items-center">
                         <span class="input-group-text border-0"><i class="fas fa-lock fa-lg mr-2"></i></span>
-                        <div class="form-outline">
-                            <input type="password" id="school-name" class="form-control form-control-lg"
-                                name="school-name" required value="" />
-                            <label class="form-label" for="password">Password</label>
+                        <div class="form-outline rounded">
+                            <input type="password" class="form-control form-control-lg rounded" name="inputPassword" required
+                                value="" />
+                            <label class="form-label" for="password" name="password">Password</label>
                         </div>
                     </div>
-                    <div class="text-center py-1 mb-5">
-                        <button class="btn btn-primary btn-block rounded-pill btn-lg mb-3" type="submit" id="login">Log
+                    <div class="text-center py-1 mb-3">
+                        <button class="btn btn-primary btn-block rounded-pill btn-lg mb-3" type="submit" id="login" value="Submit">Log
                             in</button>
-                        <a class="text-muted" href="#!"><small>Forgot password?</small></a>
                     </div>
-                    <div class="d-flex align-items-center pb-4 justify-content-between">
-                        <p class="mb-0 me-2">Don't have an account?</p>
-                        <a role="button" class="btn btn-outline-primary btn-flex" href="#sign-up-page!">Create new</a>
+                    <div>
+                        {% for message in messages %}
+                        <h3> {{message}} </h3>
+                        {% endfor %}
+                    </div>
                     </div>
                 </form>
             </div>
-    </section>
+        </div>
     </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
 </body>
 
 </html>
