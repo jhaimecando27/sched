@@ -1,21 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-<<<<<<< HEAD
-# Create your models here.
-class facultyMemberForm(models.Model):
-    inputId = models.CharField(max_length = 10)
-    inputName = models.CharField(max_length = 100)
-    inputEmploymentStatus = models.CharField(max_length = 100)
-    inputCollege = models.CharField(max_length = 100)
-    inputDepartment = models.CharField(max_length = 100)
-    inputExpertiseSubject = models.CharField(max_length = 300) #Checkbox 
-    inputDayAvailability = models.CharField(max_length = 100) #Checkbox With InputField Below | Calendar
-    inputTimePreference = models.CharField(max_length = 100) #Checkbox With InputField Below | Calendar
+# class facultyMemberForm(models.Model):
+#     inputId = models.CharField(max_length = 10)
+#     inputName = models.CharField(max_length = 100)
+#     inputEmploymentStatus = models.CharField(max_length = 100)
+#     inputCollege = models.CharField(max_length = 100)
+#     inputDepartment = models.CharField(max_length = 100)
+#     inputExpertiseSubject = models.CharField(max_length = 300) #Checkbox
+#     inputDayAvailability = models.CharField(max_length = 100) #Checkbox With InputField Below | Calendar
+#     inputTimePreference = models.CharField(max_length = 100) #Checkbox With InputField Below | Calendar
+#
+#     def __str__(self):
+#         return self.inputName
 
-    def __str__(self):
-        return self.inputName
-=======
 EMPLOYMENT_TYPE_CHOICES = (
     ('PT', 'Part Time'),
     ('FT', 'Full Time'),
@@ -89,4 +87,3 @@ class Availability(models.Model):
     week_day = models.CharField(choices=WEEK_DAY_CHOICES, max_length=3)
     start_time = models.TimeField()
     end_time = models.TimeField()
->>>>>>> database
