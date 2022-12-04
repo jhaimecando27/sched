@@ -11,5 +11,13 @@ def home(request):
 
 @login_required
 def prof(request):
-    return render(request, 'home/faculty-form.html', {})
+
+    if request.method == 'POST':
+        form = facultyForm(data=request.POST)
+
+        if form.is_valid():
+            form.save()
+
+    form = facultyForm()
+    return render(request, "home/faculty-form.html", {"form": form})
 

@@ -30,23 +30,27 @@
         <h4 class="text-center">New Faculty Schedule Preference</h4>
         <hr>
         <form action="" method="post" class="px-5">
+
+            {% csrf_token %}
+
             <label>Identification:</label>
             <div class="form-outline mt-2">
-                <input type="text" class="form-control" name="inputId" required />
+                <input type="text" class="form-control form-control-lg rounded" name="{{ form.inputId.name }}" required
+                                value="" />
                 <label class="form-label" for="inputId">Faculty I.D.</label>
             </div>
             <div class="form-outline mt-2">
-                <input type="text" class="form-control" name="inputFirstName" required value=""
+                <input type="text" class="form-control" name="{{ form.inputFirstName.name }}" required value=""
                     placeholder="" />
                 <label class="form-label" for="inputFirstName">First Name</label>
             </div>
             <div class="form-outline mt-2">
-                <input type="text" class="form-control" name="inputLastName" required value=""
+                <input type="text" class="form-control" name="{{ form.inputLastName.name }}" required value=""
                     placeholder="" />
                 <label class="form-label" for="inputLastName">Surname</label>
             </div>
             <div class="form-outline mt-2">
-                <input type="text" class="form-control" name="inputEmail" required value=""
+                <input type="text" class="form-control" name="{{ form.inputEmail.name }}" required value=""
                     placeholder="emailname@plm.edu.ph" />
                 <label class="form-label" for="inputEmail">PLM Email</label>
             </div><br>
@@ -54,23 +58,26 @@
                 <label for="">Employment Status:</label>
                 <!-- Default radio -->
                 <div class="form-check ms-4">
-                    <input class="form-check-input" type="radio" name="inputEmployeeStatus" value="fullTime" />
+                    <input class="form-check-input" type="radio" name="{{ form.inputEmployeeStatus.name }}" value="fullTime" />
                     <label class="form-check-label" for="fullTime"> Full-time </label>
                 </div>
 
                 <!-- Default checked radio -->
                 <div class="form-check ms-2">
-                    <input class="form-check-input" type="radio" name="inputEmployeeStatus" value="partTime" />
+                    <input class="form-check-input" type="radio" name="{{ form.inputEmployeeStatus.name }}" value="partTime" />
                     <label class="form-check-label" for="partTime"> Part-time </label>
                 </div>
             </div>
             <br>
-            <form action="/action_page.php" class="form-group sched-pref">
+            <form action="" class="form-group sched-pref">
+
+                {% csrf_token %}
+
                 <label for="">Day and Time Availability:</label>
                 <hr>
                 <div class="input-group mb-3 align-items-end">
                     <button class="btn btn-secondary dropdown-toggle btn-lg rounded day-pref" type="button"
-                        data-mdb-toggle="dropdown" aria-expanded="false" style="width: 150px;">
+                        data-mdb-toggle="dropdown" aria-expanded="false" style="width: 150px;" name="{{ form.inputDay.name }}">
                         <span style="padding-right: 5px;">SELECT DAY</span>
                     </button>
                     <ul class="dropdown-menu days">
@@ -84,12 +91,12 @@
                     </ul>
                     <div class="mx-3" style="width: 150px;">
                         <label for="start"><small>Start time:</small></label>
-                        <input type="time" class="form-control rounded" name="start"
+                        <input type="time" class="form-control rounded" name="{{ form.inputStartTime.name }}"
                             aria-label="Text input with dropdown button" />
                     </div>
                     <div style="width: 150px;">
                         <label for="end"><small>End time:</small></label>
-                        <input type="time" class="form-control rounded" name="end"
+                        <input type="time" class="form-control rounded" name="{{ form.inputEndTime.name }}"
                             aria-label="Text input with dropdown button" />
                     </div>
                 </div>
@@ -100,6 +107,7 @@
                 <hr>
             </form>
             <button class="btn btn-primary text-center btn-lg btn-rounded mx-5" type="submit">Submit</button>
+            
         </form>
 
     </div>
