@@ -1,10 +1,9 @@
 from django.contrib import admin
-from .models import facultyMemberForm
+# from .models import facultyMemberForm
 
-<<<<<<< HEAD
 # Register your models here.
-admin.site.register(facultyMemberForm)
-=======
+# admin.site.register(facultyMemberForm)
+
 from .models import (
     Subject, Schedule, Faculty, Availability, Course)
 
@@ -36,4 +35,3 @@ admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(Availability, AvailabilityAdmin)
 admin.site.register(Course, CourseAdmin)
->>>>>>> database
