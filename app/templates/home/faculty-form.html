@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Faculty Form
+{% endblock %}
+
+{% block head %}
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <link rel="icon" href="images/favicon.ico">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- Override Fonts -->
+    <link rel="stylesheet" href="{% static 'faculty-form.css' %}">
+    <link rel="stylesheet" href="{% static 'custom.css' %}">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="bg-light pt-4">
+        <h4 class="text-center px-3">New Faculty Schedule Preference</h4>
+        <hr>
+        <form action="" method="post" class="px-5">
+
+                {% csrf_token %}
+            <label>Identification:</label>
+            <div class="form-outline mt-2">
+                <input type="text" class="form-control" name="inputId"/>
+                <label class="form-label" for="inputId">Faculty I.D.</label>
+            </div>
+            <div class="form-outline mt-2">
+                <input type="text" class="form-control" name="inputName" 
+                    placeholder="LAST NAME, FIRST NAME M.I." />
+                <label class="form-label" for="inputName">Full Name</label>
+            </div>
+            <!-- <div class="form-outline mt-2">
+                <input type="text" class="form-control" name="inputEmail" required
+                    placeholder="school e-mail" />
+                <label class="form-label" for="inputEmail">Faculty E-mail</label>
+            </div> -->
+            <br>
+            <div class="stack-control">
+                <label for="">Employment Status:</label>
+                <div class="form-group d-flex">
+                    <!-- Default radio -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="empStatus" value="fullTime" />
+                        <label class="form-check-label" for="fullTime"> Full-time </label>
+                    </div>
+                    <!-- Default checked radio -->
+                    <div class="form-check ms-3">
+                        <input class="form-check-input" type="radio" name="empStatus" value="partTime" />
+                        <label class="form-check-label" for="partTime"> Part-time </label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label for="" class="me-3">College:</label>
+                <div class="btn-group dropend">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="college"
+                        data-mdb-toggle="dropdown" aria-expanded="false">
+                        <span style="padding-right: 5px;">SELECT COLLEGE</span>
+                    </button>
+                    <ul class="dropdown-menu colleges" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#">College of Engineering and Technology</a></li>
+                        <li><a class="dropdown-item" href="#">PLM Business School</a></li>
+                    </ul>
+                </div>
+            </div>
+            <script type="text/javascript">
+                function selectDepartment(answer) {
+                    document.getElementById('departmentSelection').classList.remove('d-none');
+                    document.getElementById('subjectSelection').classList.remove('d-none');
+                    if (answer.value == 1) {
+                        document.getElementById('cetDept').classList.remove('d-none');
+                        document.getElementById('plmbsDept').classList.add('d-none');
+                        document.getElementById('plmbsDept').selectedIndex = 0;
+                        document.getElementById('cetDeptSubject').classList.remove('d-none');
+                        document.getElementById('plmbsDeptSubject').classList.add('d-none');
+                    }
+                    else if (answer.value == 2) {
+                        document.getElementById('plmbsDept').classList.remove('d-none');
+                        document.getElementById('cetDept').classList.add('d-none');
+                        document.getElementById('cetDept').selectedIndex = 0;
+                        document.getElementById('cetDeptSubject').classList.add('d-none');
+                        document.getElementById('plmbsDeptSubject').classList.remove('d-none');
+                    }
+                };
+                function clearBoxes() {
+                    boxes = document.getElementsByName('clearValue');
+                    for (var i = 0; i < boxes.length; i++) {
+                        boxes[i].checked = false;
+                    }
+                }
+            </script>
+            <div class="form-group d-none" id="departmentSelection">
+                <label for="">Department:</label>
+                <select name="inputDepartment" id="cetDept" class="form-control d-none">
+                    <option selected disabled="true">-----Select Department-----</option>
+                    <option>Computer Science</option>
+                    <option>Computer Engineering</option>
+                    <option>Information Technology</option>
+                </select>
+
+                <select name="inputDepartment" id="plmbsDept" class="form-control d-none">
+                    <option selected disabled="true">-----Select Department-----</option>
+                    <option>Business 1</option>
+                    <option>Ergonomics Or Something</option>
+                    <option>Mema Business 2</option>
+                </select>
+
+                <br>
+            </div>
+
+            <div class="form-group d-none" id="subjectSelection">
+                <label for="">Expertise/Subject:</label>
+                <hr>
+                <div id="cetDeptSubject" class="d-none">
+                    <input type="checkbox" value="Software Engineering" class="chkvalues" name="clearValue" />Software
+                    Engineering
+                    <input type="checkbox" value="Programming" class="chkvalues" name="clearValue" />Programming
+                    <input type="checkbox" value="Human Computer Interaction" class="chkvalues"
+                        name="clearValue" />Human Computer Interaction
+                    <input type="checkbox" value="Computer Systems and Hardware" class="chkvalues"
+                        name="clearValue" />Computer Systems and Hardware
+                    <input type="checkbox" value="Discrete Structures" class="chkvalues" name="clearValue" />Discrete
+                    Structures
+                    <input type="hidden" name="inputExpertiseSubject" id="txtvalues" name="clearValue" />
+                </div>
+
+                <div id="plmbsDeptSubject" class="d-none">
+                    <input type="checkbox" value="Basic Calculus" class="chkvalues" name="clearValue" />Basic Calculus
+                    <input type="checkbox" value="Intermediate Calculus" class="chkvalues"
+                        name="clearValue" />Intermediate Calculus
+                    <input type="checkbox" value="Advanced Calculus" class="chkvalues" name="clearValue" />Advanced
+                    Calculus
+                    <input type="checkbox" value="Business 101" class="chkvalues" name="clearValue" />Business 101
+                    <input type="checkbox" value="Ewan Idk" class="chkvalues" name="clearValue" />Ewan Idk
+                    <input type="hidden" name="inputExpertiseSubject" id="txtvalues" name="clearValue" />
+                </div>
+            </div>
+            <br>
+            <div id="row">
+                <label for="">Day and Time Availability:</label>
+                <hr>
+                <div class="divSchedule">
+                    <label for="">Day</label>
+                    <select class="form-control" style="width:165px" name="day">
+                        <option selected disabled="true" >-----Select Day-----</option>
+                        {% for week in weeks %}
+                        <option>{{ week.1 }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="">Start Time</label>
+                    <input type="time" name="stime">
+                    <br>
+                    <label for="">End Time:</label>
+                    <input type="time" name="etime">
+
+                </div>
+            </div>
+            <a href="#" class="btn btn-primary" onclick="addDiv()">&plus; Add Another Schedule</a>
+            <br>
+            <hr>
+            <div class="form-group px-5">
+                <label for="inputUnitsLoad">Units/Load:</label>
+                <input type="text" name="inputUnitsLoad" class="form-control">
+                <br>
+            </div>
+            <button class="btn btn-primary text-center btn-lg btn-rounded mx-5" type="submit">Submit</button>
+        </form>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+    <script>
+        //ADD ANOTHER DIV SELECTION OF DAY/START TIME/END TIME
+
+var divCounter = 1;
+
+function addDiv() {
+    html = '<div class="divSchedule" id="row' + divCounter + '">\
+                <label for="">Day</label>\
+                <select class="form-control" style="width:165px" name="day">\
+                    <option selected disabled="true" >-----Select Day-----</option>\
+                    {% for week in weeks %}<option>{{ week.1 }}</option>{% endfor %}\
+                </select>\
+                <label for="">Start Time</label>\
+                <input type="time" name="stime">\
+                <br>\
+                <label for="">End Time:</label>\
+                <input type="time" name="etime">\
+                <a href="#" id="' + divCounter + '"class="btn btn-primary" onclick="removeDiv(this)">&minus;</a>\
+            </div>'
+    var form = document.getElementById('row')
+    form.innerHTML += html
+    divCounter += 1
+};
+
+//REMOVES PREVIOUSLY CREATED DIV 
+
+function removeDiv(button) {
+    let number = button.id
+    let row = document.getElementById('row' + number)
+    row.remove()
+};
+    </script>
+{% endblock %}

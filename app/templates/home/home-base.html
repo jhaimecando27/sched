@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block head %}
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<link rel="icon" href="images/favicon.ico">
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<!-- MDB -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
+    rel="stylesheet">
+<!-- Override Fonts -->
+<link rel="stylesheet" href="{% static 'custom.css'%}">
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'chair-dashb.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="nav-bar">
+        <a class="btn btn-light rounded-0 px-1 w-100" href="{% url 'main:profile' %}" value="profile" name="section">
+            <i class="far fa-user-circle fa-2x"></i><br>Profile</button>
+        <a class="btn btn-light rounded-0 px-1 w-100" href="{% url 'main:schedules' %}" value="schedules" name="section">
+            <i class="fas fa-calendar-day fa-2x"></i><br>Schedules</button>
+        <a class="btn btn-light rounded-0 px-1 w-100" href="{% url 'main:department' %}" value="dept" name="section">
+            <i class="fas fa-table fa-2x"></i><br><small>Department</small></button>
+        <a class="btn btn-light rounded-0 px-1 w-100" href="{% url 'main:faculty' %}" value="faculty" name="section">
+            <i class="fas fa-chalkboard-teacher fa-2x"></i><br>Faculty</button>
+        <a role="button" href="{% url 'account:logout' %}" class="btn btn-light rounded-0 shadow-none px-1 mt-2">
+            <i class="fas fa-sign-out-alt fa-2x"></i><br>Log out</a>
+    </div>
+    <div class="about px-4 pt-4">
+        {% block sidebarAbout %}
+        {% endblock %}
+    </div>
+    <div class="pt-2" style="background-color: thistle;">
+        <h5>
+            A.Y. 20XX-20XX (N<sup>th</sup> Semester)<br>
+            <small class="text-muted fw-normal">Current Academic Term</small>
+        </h5>
+    </div>
+    <div class="task">
+        {% block sidebarTask %}
+        {% endblock %}
+    </div>
+
+    <!-- MDB *best placed right before closing body tag* -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+    <script>
+        let section = "<%- section %>"
+        let navs = $(".nav-bar>form>button").get();
+        navs.forEach(sect => {
+            if ($(sect).val() == section) {
+                $(sect).toggleClass("btn-secondary btn-light");
+            }
+        });
+    </script>
+</div>
+{% endblock %}

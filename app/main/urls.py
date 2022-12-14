@@ -2,8 +2,13 @@ from django.urls import path
 
 from . import views
 
+app_name = 'main'
+
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('prof/', views.prof, name='prof'),
-    path('chair/', views.chair, name='prof'),
+    path('', views.profile, name='profile'),
+    path('profile/', views.profile, name='profile'),
+    path('schedules/', views.schedules, name='schedules'),
+    path('department/', views.department, name='department'),
+    path('faculty/', views.faculty, name='faculty'),
+    path('faculty-form/', views.faculty_form, name='faculty form'),
 ]
