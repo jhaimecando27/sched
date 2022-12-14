@@ -31,7 +31,7 @@ def login_user(request):
             # Redirect to a success page.
             if user is not None:
                 login(request, user)
-                return redirect('main:home')
+                return redirect('main:profile')
                 # return redirect('home')
 
             # Return an error message (Form is valid but credential is not).
@@ -51,4 +51,4 @@ def logout_user(request):
     logout(request)
 
     # Redirect to a success page.
-    return redirect('main:home')
+    return redirect('main:profile')

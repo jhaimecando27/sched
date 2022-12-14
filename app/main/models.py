@@ -42,6 +42,12 @@ COURSE_CHOICES = (
 )
 
 
+class extendUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_chairperson = models.BooleanField(default=False)
+    is_professor = models.BooleanField(default=False)
+
+
 class Course(models.Model):
     title = models.CharField(choices=COURSE_CHOICES,
                              max_length=20, unique=True)
