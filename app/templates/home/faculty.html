@@ -1,0 +1,96 @@
+<!-- 
+    TODO 
+        - Convert EJS to Jinja
+-->
+
+{% extends "home/home-base.html" %}
+
+{% block sidebarAbout %}
+<div class="header text-start">
+    <h4 class="text-center">Subjects</h4>
+    <div class="input-group">
+        <input type="text" class="form-control border-end-0" placeholder="Subject code/title" aria-label="enter subject code"/>
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-outline-secondary btn-rounded dropdown-toggle mb-1" type="button" data-mdb-toggle="dropdown" aria-expanded="false">
+            Select Expertise
+        </button>
+        <ul class="dropdown-menu mt-1" aria-labelledby="expertiseMenu">
+            <li><button class="dropdown-item color-danger text-danger" type="button">Cancel</button></li>
+            <li><hr class="dropdown-divider m-0" /></li>
+            <% expertises.forEach(expertise => { %>
+                <li class="expertise"><button class="dropdown-item" type="button"><%= expertise %></button></li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
+<div class="py-2 border-top" style="overflow-y: scroll;">
+    <p>Relevant Faculty</p>
+    <% for(let i=0; i < instructors.length; i++) { %>
+    <a role="button" href="#faculty" class="btn btn-secondary btn-block p-3 text-start">
+        <h6 class="m-0 text-start"><%= instructors[i]["name"] %></h6>
+        <!-- limit to 30 char -->
+        <p class="m-0 text-capitalize"><small>Employment status: <%= instructors[i]["status"] %></small></p>
+    </a>
+    <% } %>
+</div>
+{% endblock %}
+
+{% block sidebarTask %}
+<div class="task-info align-items-baseline">
+    <div class="me-3">
+        <h4>{department} Faculty</h4>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-secondary btn-floating col-md me-5" value="edit" name="subjectTab" title="Edit subjects"><i class="fas fa-edit fa-lg"></i></button>
+        <button class="btn btn-warning btn-floating col-md me-1" value="export" name="subjectTab" title="Export table"><i class="fas fa-file-download fa-lg"></i></button>
+        <button class="btn btn-warning btn-floating col-md" title="import table"><i class="fas fa-file-upload fa-lg"></i></button>
+    </div>
+</div>
+<div>
+    <table class="table align-middle bg-white">
+        <thead class="text-uppercase fw-bolder" style="background-color: #e7d1e7;">
+            <th>Name</th>
+            <th>Employment</th>
+            <th>Expertise</th>
+        </thead>
+        <tbody style="overflow-y: scroll;">
+            <% for (let i=0; i < instructors.length; i++) { %>
+            <tr>
+                <td><%= instructors[i]["name"] %></td>
+                <td><%= instructors[i]["status"] %></td>
+                <td><%= instructors[i]["expertise"] %></td>
+            </tr>
+            <% } %>
+            <tr>
+                <td><button class="btn btn-secondary btn-floating col-md me-4" title="Add new subject"><i class="fas fa-plus fa-lg"></i></button></td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    let dropMenus = $("div.dropdown").get();
+        dropMenus.forEach(dropdown => {
+            let header = $(dropdown).children("button");
+            let items = $(dropdown).children("ul").children("li").get();
+            items.forEach(item => {
+                $(item).click(() => {
+                    let text = $(item).children("button").text();
+                    if (text === "Cancel") {
+                        $(header).text("Select Expertise");
+                        $(header).addClass("btn-outline-secondary");
+                        $(header).removeClass("btn-secondary");
+                    } else {
+                        $(header).text(text);
+                        $(header).addClass("btn-secondary");
+                        $(header).removeClass("btn-outline-secondary");
+                    }
+                    
+                });
+            });
+        });
+</script>
+{% endblock %}
