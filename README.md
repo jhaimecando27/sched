@@ -33,6 +33,10 @@ pip install -r requirements.txt
 cd app
 python manage.py migrate
 ```
+### 5. Run the server
+```sh
+python mange.py runserver
+```
 ## Notes
 - Creation ng mga account (prof & chair) ay si admin gagawa, type the following para gumawa ng admin account:
 ```sh
