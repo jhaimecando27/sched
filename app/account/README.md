@@ -1,10 +1,17 @@
-## Notes:
-- `username` is the id number, may may id number nmn mga prof for sure. *- Jhaime*
-- May pre-built urls na yung django (e.g. login) pero gagawa tayo ng saatin kasi may otp tayong ilalagay at baka email gusto nila pang login. For now yung **username/id number** nila muna gagamitin pang log in. Meron kasing ginawa yung django na db at may master list na dun, which is maganda pero medyo tricky yung pag modify ng table na yun. By default kasi `username` yung ginagamit sa `authenticate()` so parang kailan pa i-override yun kung `email` gagamitin. Check nlng ng `backends.py` nandun yung mga kailangan na info. *- Jhaime*
+`views.py`
+----------
+- `login_user`
+    - By default may pre-made ng login page yung Django, pero gagawa tayo ng sarili natin kasi may possible na idagdagdag like pag change ng password for pre-made accounts.
 
-## Login (Possible) Plan:
-- Probably gagawa ng panibagong table for prof & chairpersons, wala pa kasi ER so assume nlng natin hahaha. So sa mga table na yun lagyan nlng natin siguro ng `is_first_login` para ma prompt to change pasword agad kung first time. Pero baka sa master list nlng natin lagay kasi dodoble yung column at ayaw natin yun. *- Jhaime*
+`urls.py`
+----------
+- Sa password reset ginamit ko lng yung implementation ng Django meron na kasi, and yung babaguhin lng is yung UI kaya pinalitan ko lng yung `template_name`. Eto yung mga urls for password reset:
+    - `password_reset/` - Dito need email para ma change yung password. Mag sesend lng ng link to change password.
+    - `password_reset/done/` - Sasabihin lng yung result if na send na sa email
+    - `reset/<uidb64>/<token>/` - Eto yung isesend sa email to change the password agad. `<uidb64>` yung user. `<token>` for security purposes.
+    - `reset/done/` - Sasabihin yung result sa pag change ng password.
 
-## TODO:
-- [ ] Prompt new login a change password form (my function yung django dito)
-- [ ] Add change password form (old user) w/ OTP form, for "reset password"
+note
+----
+- Password reset (Security)
+    - Onced nagamit na yung link na nasend sa email mag e-expire na agad sya. By mean of "nagamit" is na changed na yung password which is purpose ng link.
