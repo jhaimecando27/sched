@@ -12,7 +12,8 @@ def login_user(request):
 
         # May sariling form yung django for login page
         # Gagamitin natin yun kasi naka ayos nmn na lahat dun
-        # yung reference yung reason kung bat may 'data=request.POST'
+        # yung reference yung reason kung bat may 'data=request.POST'.
+        # Form lang to for UI para i-double check yung inputs.
         # Ref: https://stackoverflow.com/questions/45824046/djangos-authentication-form-is-always-not-valid
         form = AuthenticationForm(data=request.POST)
 
@@ -42,7 +43,12 @@ def login_user(request):
         else:
             messages.error(request, "Invalid username or password.")
 
+    # UI form
     form = AuthenticationForm()
+
+    # yung importanteng tandaan lng dito yung 2nd paramerter and last.
+    # yung 2nd template lng yan, by default naturo na sya sa loob ng template folder
+    # yung last parameter ipapasok natin yung form ng Django.
     return render(request, "account/login_user.html", {"form": form})
 
 
