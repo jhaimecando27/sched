@@ -35,32 +35,36 @@ Login
             </div>
             <div class="card-body p-md-5" id="form-section">
                 <div class="text-center">
-                    <img src="{% static 'images/css-logo.png' %}" alt="PLM logo" style="height: 110px; width:auto;" class="mb-2">
+                    <img src="{% static 'images/css-logo.png' %}" alt="logo" style="max-height: 90px; width:auto; min-height: 50px;"
+                        class="mb-2">
                     <h2 class="card-title">Let's get started!</h2>
                 </div>
                 <p class="mt-5">Please log in to your account</p>
-
-                <form action="{% url 'account:login' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="input-group my-4 align-items-center">
-                        <span class="input-group-text border-0"><i class="fas fa-user fa-lg"></i></span>
-                        <div class="form-outline rounded">
-                            <input type="text" class="form-control form-control-lg rounded" name="{{ form.username.name }}" required
+                <form action="{% url 'account:login' %}" method="post">
+                {% csrf_token %}
+                    <div class="input-group input-group-lg my-4 shadow-0 align-items-center">
+                        <span class="input-group-text">
+                            <i class="fas fa-user fa-lg"></i>
+                        </span>
+                        <div class="form-outline">
+                            <input type="text" class="form-control form-control-lg shadow-0" name="{{ form.username.name }}" required
                                 value="" />
-                            <label class="form-label" for="username" name="username">Username</label>
+                            <label class="form-label" for="schoolName">Username</label>
                         </div>
                     </div>
-                    <div class="input-group mb-4 align-items-center">
-                        <span class="input-group-text border-0"><i class="fas fa-lock fa-lg mr-2"></i></span>
-                        <div class="form-outline rounded">
-                            <input type="password" class="form-control form-control-lg rounded" name="{{ form.password.name }}" required
+                    <div class="input-group input-group-lg mb-4 shadow-0 align-items-center">
+                        <span class="input-group-text border-end-0"><i class="fas fa-lock fa-lg mr-2"></i></span>
+                        <div class="form-outline border-start-0">
+                            <input type="password" class="form-control form-control-lg" name="{{ form.password.name }}" required
                                 value="" />
-                            <label class="form-label" for="password" name="password">Password</label>
+                            <label class="form-label" for="password">Password</label>
                         </div>
                     </div>
-                    <div class="text-center py-1 mb-3">
-                        <button class="btn btn-primary btn-block rounded-pill btn-lg mb-3" type="submit" id="login" value="Submit">Log
+                    <div class="text-center py-1 mb-4">
+                        <button class="btn btn-primary btn-block rounded-pill btn-lg mb-2" type="submit">Log
                             in</button>
+                        <a class="text-muted" href="{% url 'account:password_reset' %}"><small>Forgot password?</small></a>
+                        <!-- must lead to reset.html to get their username -->
                     </div>
                     <div>
                         {% if messages %}
@@ -68,7 +72,6 @@ Login
                             {{ message }}
                         {% endfor %}
                         {% endif %}
-                    </div>
                     </div>
                 </form>
             </div>
