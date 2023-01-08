@@ -1,5 +1,5 @@
 from django import forms
-from .models import Course, Faculty, Department, Subject, Availability, EMPLOYMENT_TYPE_CHOICES, COLLEGE_CHOICES
+from .models import Course, Faculty, Department, Subject, Room, Availability, EMPLOYMENT_TYPE_CHOICES, COLLEGE_CHOICES
 
 
 class FacultyForm(forms.ModelForm):
@@ -32,3 +32,21 @@ class AvailabilityForm(forms.ModelForm):
     class Meta:
         model = Availability
         fields = ['week_day', 'start_time', 'end_time']
+
+
+class SubjectForm(forms.ModelForm):
+    class Meta:
+        model = Subject
+        fields = ['code', 'title', 'units']
+
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['bldg_initials', 'bldg_name', 'room_num']
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['num_blocks']

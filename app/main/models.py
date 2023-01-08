@@ -1,19 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# class facultyMemberForm(models.Model):
-#     inputId = models.CharField(max_length = 10)
-#     inputName = models.CharField(max_length = 100)
-#     inputEmploymentStatus = models.CharField(max_length = 100)
-#     inputCollege = models.CharField(max_length = 100)
-#     inputDepartment = models.CharField(max_length = 100)
-#     inputExpertiseSubject = models.CharField(max_length = 300) #Checkbox
-#     inputDayAvailability = models.CharField(max_length = 100) #Checkbox With InputField Below | Calendar
-#     inputTimePreference = models.CharField(max_length = 100) #Checkbox With InputField Below | Calendar
-#
-#     def __str__(self):
-#         return self.inputName
-
 EMPLOYMENT_TYPE_CHOICES = (
     ('PT', 'Part Time'),
     ('FT', 'Full Time'),
@@ -61,6 +48,7 @@ class Course(models.Model):
     title = models.CharField(max_length=80, unique=True)
     college_id = models.ForeignKey(Department, on_delete=models.CASCADE)
     chairperson_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    num_blocks = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -70,7 +58,13 @@ class Subject(models.Model):
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     code = models.CharField(max_length=20)
     title = models.CharField(max_length=20)
-    units = models.IntegerField()
+    units = models.IntegerField(default=False)
+
+
+class Room(models.Model):
+    bldg_initials = models.CharField(max_length=100)
+    bldg_name = models.CharField(max_length=100)
+    room_num = models.IntegerField()
 
 
 class Schedule(models.Model):
@@ -78,6 +72,7 @@ class Schedule(models.Model):
     block_number = models.IntegerField()
     week_day = models.CharField(choices=WEEK_DAY_CHOICES, max_length=3)
     day_time = models.TimeField()
+    room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
 
 
 class Faculty(models.Model):
@@ -89,7 +84,8 @@ class Faculty(models.Model):
     schedule_id = models.ForeignKey(
         Schedule, on_delete=models.CASCADE, blank=True, null=True)
     total_units = models.IntegerField(blank=True, null=True)
-    college_id = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    college_id = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, null=True)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

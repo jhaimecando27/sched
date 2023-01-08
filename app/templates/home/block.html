@@ -1,28 +1,24 @@
-<!-- 
-    TODO 
-        - Convert EJS to Jinja
--->
 {% extends "home/home-base.html" %}
 
 {% block sidebarAbout %}
 <div class="header text-start">
     <h4 class="text-center mb-4">Department Data</h4>
-    <button class="btn btn-secondary btn-block ps-4 py-3 text-start btn-sm align-middle">
+    <a href="{% url 'main:block' %}" class="btn btn-primary btn-block ps-4 py-3 text-start btn-sm align-middle">
         <i class="fas fa-users fa-2x me-3"></i><h5 class="d-inline">Blocks</h5>
-    </button>
-    <button class="btn btn-primary btn-block ps-4 py-3 text-start btn-sm align-middle">
+    </a>
+    <a href="{% url 'main:subject' %}" class="btn btn-secondary btn-block ps-4 py-3 text-start btn-sm align-middle">
         <i class="fas fa-chalkboard fa-2x me-3"></i><h5 class="d-inline">Subjects</h5>
-    </button>
-    <button class="btn btn-secondary btn-block ps-4 py-3 text-start btn-sm align-middle">
+    </a>
+    <a href="{% url 'main:room' %}" class="btn btn-secondary btn-block ps-4 py-3 text-start btn-sm align-middle">
         <i class="fas fa-door-open fa-2x me-3"></i><h5 class="d-inline">Rooms</h5>
-    </button>
+    </a>
 </div>
 {% endblock %}
 
 {% block sidebarTask %}
 <div class="task-info align-items-baseline">
     <div class="me-3">
-        <h4>{{ college.code }} Subjects</h4>
+        <h4>{{ college.code }} Blocks</h4>
     </div>
     <div class="mb-3">
         <button class="btn btn-secondary btn-floating col-md me-5" value="edit" name="subjectTab" title="Edit subjects"><i class="fas fa-edit fa-lg"></i></button>
@@ -31,32 +27,24 @@
     </div>
 </div>
 <div>
-        <form method="POST">
-            {% csrf_token %}
-            {{ subject_form.management_form }}
         <table class="table align-middle bg-white">
             <thead class="text-uppercase fw-bolder" style="background-color: #e7d1e7;">
-                <th>Code</th>
-                <th>Title</th>
-                <th>Units</th>
+                <th>Number of Blocks</th>
+                <th></th>
             </thead>
             <tbody style="overflow-y: scroll;">
-                {% for form in subject_form %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
                 <tr>
-                    <td>{{ form.code }}</td>
-                    <td>{{ form.title }}</td>
-                    <td>{{ form.units }}</td>
+                    <td>{{ course.num_blocks }}</td>
                 </tr>
-                {% endfor %}
+
                 <tr>
-                <td><button type="submit" class="btn btn-secondary btn-floating col-md me-4" title="Add new subject"><i class="fas fa-plus fa-lg"></i></button></td>
-                <td>--</td>
-                <td>--</td>
+                    <form action="{% url 'main:block' %}" method="post">
+                    {% csrf_token %}
+                    <td><input type="number" name="{{ form.num_blocks.name }}" placeholder="Number of blocks"></td>
+                    <td><button class="btn btn-primary " type="submit">Submit</button></td>
+                    </form>
                 </tr>
+            </tbody>
         </table>
-    </form>
 </div>
 {% endblock %}

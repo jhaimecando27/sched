@@ -1,5 +1,5 @@
-<!-- 
-    TODO 
+<!--
+    TODO
         - Convert EJS to Jinja
 -->
 
@@ -7,7 +7,7 @@
 
 {% block sidebarAbout %}
 <div class="header text-start">
-    <h4 class="text-center">Subjects</h4>
+    <h4 class="text-center">Faculty</h4>
     <div class="input-group">
         <input type="text" class="form-control border-end-0" placeholder="Subject code/title" aria-label="enter subject code"/>
         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -53,35 +53,25 @@
     </div>
 </div>
 <div>
-    <form method="POST" novalidate>
-    {% csrf_token %}
-    {{ faculty_form.management_form }}
     <table class="table align-middle bg-white">
         <thead class="text-uppercase fw-bolder" style="background-color: #e7d1e7;">
+            <th>School ID</th>
             <th>Name</th>
             <th>Employment</th>
             <th>Expertise</th>
+            <th>Total Units</th>
         </thead>
         <tbody style="overflow-y: scroll;">
-            {% for form in faculty_form %}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-
+            {% for faculty in list_faculty %}
             <tr>
-                <td>{{ form.name }}</td>
-                <td>{{ form.employment_status }}</td>
-                <td>{{ form.expertise }}</td>
+                <td>{{ faculty.school_id }}</td>
+                <td>{{ faculty.name }}</td>
+                <td>{{ faculty.employment_status }}</td>
+                <td>{{ faculty.expertise }}</td>
+                <td>{{ faculty.total_units }}</td>
             </tr>
             {% endfor %}
-
-            <tr>
-                <td><button type="submit" class="btn btn-secondary btn-floating col-md me-4" title="Add new subject"><i class="fas fa-plus fa-lg"></i></button></td>
-                <td>--</td>
-                <td>--</td>
-            </tr>
         </tbody>
     </table>
 </div>
-
 {% endblock %}

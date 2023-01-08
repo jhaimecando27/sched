@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, reverse
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
-from .forms import FacultyForm, AvailabilityForm
-from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject
+from .forms import FacultyForm, AvailabilityForm, SubjectForm, RoomForm, CourseForm
+from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject, Room
 
 
 # Ref 1: https://stackoverflow.com/questions/2245895/is-there-a-simple-way-to-get-group-names-of-a-user-in-django
@@ -21,60 +22,95 @@ def schedules(request):
 
 
 @login_required(login_url='/account/login/')
-def department(request):
+def subject(request):
     current_user = request.user
     course = Course.objects.filter(chairperson_id=current_user.id).first()
-
-    FormSet = modelformset_factory(
-        Subject, fields=('code', 'title', 'units'), extra=1)
-
-    if request.method == 'POST':
-        subject_form = FormSet(request.POST)
-
-        if subject_form.is_valid():
-            instances = subject_form.save(commit=False)
-
-            for instance in instances:
-                instance.course_id_id = course.id
-                instance.save()
-
-    subject_form = FormSet()
-
     college = Department.objects.get(id=course.college_id.id)
-    list_subjects = Subject.objects.filter(course_id=course.id)
+    list_subjs = Subject.objects.filter(course_id_id=course.id)
+
+    # POST
+    if request.method == 'POST':
+        # Initialze form
+        form = SubjectForm(data=request.POST)
+
+        # Get & Check Form
+        if form.is_valid():
+            subj = form.save(commit=False)
+            subj.course_id_id = course.id
+            subj.save()
+
+    form = SubjectForm()
+
     context = {
-        'subject_form': subject_form,
         'college': college,
-        'list_subjects': list_subjects
+        'list_subjs': list_subjs,
+        'form': form,
     }
 
-    return render(request, 'home/department.html', context)
+    return render(request, 'home/subject.html', context)
 
 
-@ login_required(login_url='/account/login/')
+@login_required(login_url='/account/login/')
+def room(request):
+    current_user = request.user
+    course = Course.objects.filter(chairperson_id=current_user.id).first()
+    college = Department.objects.get(id=course.college_id.id)
+    list_rooms = Room.objects.all()
+
+    # POST
+    if request.method == 'POST':
+        # Initialze form
+        form = RoomForm(data=request.POST)
+
+        # Get & Check Form
+        if form.is_valid():
+            form.save()
+
+    form = RoomForm()
+
+    context = {
+        'college': college,
+        'list_rooms': list_rooms,
+        'form': form,
+    }
+
+    return render(request, 'home/room.html', context)
+
+
+@login_required(login_url='/account/login/')
+def block(request):
+    current_user = request.user
+    course = Course.objects.filter(chairperson_id=current_user.id).first()
+    college = Department.objects.get(id=course.college_id.id)
+
+    # POST
+    if request.method == 'POST':
+        # Initialze form
+        form = CourseForm(data=request.POST)
+
+        # Get & Check Form
+        if form.is_valid():
+            form.save()
+
+    form = RoomForm()
+
+    context = {
+        'college': college,
+        'course': course,
+        'form': form,
+    }
+
+    return render(request, 'home/block.html', context)
+
+
+@login_required(login_url='/account/login/')
 def faculty(request):
     current_user = request.user
     course = Course.objects.filter(chairperson_id=current_user.id).first()
-
-    FormSet = modelformset_factory(
-        Faculty, fields=('name', 'employment_status', 'expertise'), extra=1)
-
-    if request.method == 'POST':
-        faculty_form = FormSet(request.POST)
-
-        if faculty_form.is_valid():
-            instances = faculty_form.save(commit=False)
-
-            for instance in instances:
-                instance.course_id_id = course.id
-                instance.save()
-
     college = Department.objects.get(id=course.college_id.id)
-
-    faculty_form = FormSet()
     list_faculty = Faculty.objects.filter(course_id=course.id)
+
     context = {
-        'faculty_form': faculty_form,
         'list_faculty': list_faculty,
         'college': college
     }
@@ -101,6 +137,7 @@ def faculty_form(request):
 
     fform = FacultyForm()
     aform = AvailabilityForm()
+
     # Dito i-dedefine ko na yung mga needed like colleges, departments, weeks.
     # Ginawa ko yun para yun lng need baguhin ng admin if may changes
     # na gagagawin hindi yung pupuntahan pa nila yung html file para mag bago.
@@ -115,3 +152,23 @@ def load_courses(request):
     department_id = request.GET.get('college_id')
     courses = Course.objects.filter(college_id=department_id)
     return render(request, 'home/course_list.html', {'courses': courses})
+
+
+@login_required(login_url='/account/login/')
+def del_subj(request, subj_id):
+    subject = get_object_or_404(Subject, id=subj_id)
+
+    # TODO: Add try method
+    subject.delete()
+
+    return HttpResponseRedirect(reverse('main:subject'))
+
+
+@login_required(login_url='/account/login/')
+def del_room(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+
+    # TODO: Add try method
+    room.delete()
+
+    return HttpResponseRedirect(reverse('main:room'))
