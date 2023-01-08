@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
 from .forms import FacultyForm, AvailabilityForm
-from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty
+from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject
 
 
 # Ref 1: https://stackoverflow.com/questions/2245895/is-there-a-simple-way-to-get-group-names-of-a-user-in-django
@@ -19,17 +20,66 @@ def schedules(request):
 
 @login_required(login_url='/account/login/')
 def department(request):
-    # TODO
-    return render(request, 'home/department.html', {})
+    current_user = request.user
+    course = Course.objects.filter(chairperson_id=current_user.id).first()
+
+    FormSet = modelformset_factory(
+        Subject, fields=('code', 'title', 'units'), extra=1)
+
+    if request.method == 'POST':
+        subject_form = FormSet(request.POST)
+
+        if subject_form.is_valid():
+            instances = subject_form.save(commit=False)
+
+            for instance in instances:
+                instance.course_id_id = course.id
+                instance.save()
+
+    subject_form = FormSet()
+
+    college = Department.objects.get(id=course.college_id.id)
+    list_subjects = Subject.objects.filter(course_id=course.id)
+    context = {
+        'subject_form': subject_form,
+        'college': college,
+        'list_subjects': list_subjects
+    }
+
+    return render(request, 'home/department.html', context)
 
 
-@login_required(login_url='/account/login/')
+@ login_required(login_url='/account/login/')
 def faculty(request):
-    # TODO
-    return render(request, 'home/faculty.html', {})
+    current_user = request.user
+    course = Course.objects.filter(chairperson_id=current_user.id).first()
+
+    FormSet = modelformset_factory(
+        Faculty, fields=('name', 'employment_status', 'expertise'), extra=1)
+
+    if request.method == 'POST':
+        faculty_form = FormSet(request.POST)
+
+        if faculty_form.is_valid():
+            instances = faculty_form.save(commit=False)
+
+            for instance in instances:
+                instance.course_id_id = course.id
+                instance.save()
+
+    college = Department.objects.get(id=course.college_id.id)
+
+    faculty_form = FormSet()
+    list_faculty = Faculty.objects.filter(course_id=course.id)
+    context = {
+        'faculty_form': faculty_form,
+        'list_faculty': list_faculty,
+        'college': college
+    }
+
+    return render(request, 'home/faculty.html', context)
 
 
-@login_required(login_url='/account/login/')
 def faculty_form(request):
 
     if request.method == 'POST':

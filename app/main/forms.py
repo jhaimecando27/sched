@@ -11,7 +11,7 @@ class FacultyForm(forms.ModelForm):
     class Meta:
         model = Faculty
         fields = ['college_id', 'course_id',
-                  'employment_status', 'name', 'school_id']
+                  'employment_status', 'name', 'school_id', 'expertise']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -71,8 +71,6 @@ class Subject(models.Model):
     code = models.CharField(max_length=20)
     title = models.CharField(max_length=20)
     units = models.IntegerField()
-    duration_minutes = models.TimeField()
-    year_number = models.IntegerField()
 
 
 class Schedule(models.Model):
@@ -85,6 +83,7 @@ class Schedule(models.Model):
 class Faculty(models.Model):
     school_id = models.IntegerField(blank=True, null=True, unique=True)
     name = models.CharField(max_length=100)
+    expertise = models.CharField(max_length=100)
     employment_status = models.CharField(
         choices=EMPLOYMENT_TYPE_CHOICES, max_length=10)
     schedule_id = models.ForeignKey(

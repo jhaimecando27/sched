@@ -9,8 +9,7 @@ from .models import (
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('course_id', 'code', 'title', 'units',
-                    'duration_minutes',  'year_number')
+    list_display = ('course_id', 'code', 'title', 'units')
 
 
 class ScheduleAdmin(admin.ModelAdmin):
