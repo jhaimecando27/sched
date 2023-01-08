@@ -101,8 +101,8 @@
 {% block sidebarTask %}
 <div class="task-info">
     <div class="me-5">
-        <h4>Year <%= year %> - Block <%= block %></h4>
-        <p><b>Schedule status: <%= status %></b></p>
+        <h4>Year 1 - Block 2</h4>
+        <p><b>Schedule status: Incomplete</b></p>
     </div>
     <div>
         <button class="btn btn-warning btn-floating col-md me-1" title="Edit"><i class="fas fa-edit fa-lg"></i></button>
@@ -121,28 +121,16 @@
 </ul>
 <div class="schedule">
     <div class="time">
-        <% for (let i=5; i<= 22; i++) { %>
             <h6><small>
-                <% if (i < 12) { %>
-                    <%= i %> AM
-                <% } else if (i == 12) { %>
-                    <%= i %> PM
-                <% } else { %>
-                    <%= i-12 %> PM
-                <% } %>
             </small></h6>
-        <% } %>
     </div>
     <div class="sched-container">
         <div class="card mon rounded-0" style="grid-row: 1/4;">
             <div class="card-body bg-light rounded-5 mx-1 my-0">
-                <h6 class="card-title m-0">hello</h6>
-
+                <h6 class="card-title m-0"></h6>
             </div>
         </div>
-        <% for (let i=0; i < 249; i++) { %>
-            <div></div>
-        <% } %>
+        <div></div>
     </div>
 </div>
 <script>

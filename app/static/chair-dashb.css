@@ -3,6 +3,8 @@ body {
     height: 100%;
 }
 
+div.stats>div { border: #BDBDBD solid 0.5px; }
+
 .dashboard {
     display: grid;
     grid-template-columns: 80px minmax(160px, 280px) minmax(250px, auto);

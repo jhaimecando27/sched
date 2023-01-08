@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
@@ -8,8 +9,9 @@ from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOI
 # Ref 1: https://stackoverflow.com/questions/2245895/is-there-a-simple-way-to-get-group-names-of-a-user-in-django
 @login_required(login_url='/account/login/')
 def profile(request):
-    # TODO
-    return render(request, 'home/profile.html', {})
+    current_user = request.user
+
+    return render(request, 'home/profile.html', {'current_user': current_user})
 
 
 @login_required(login_url='/account/login/')
