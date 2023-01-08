@@ -48,12 +48,19 @@ class extendUser(models.Model):
     is_professor = models.BooleanField(default=False)
 
 
+class Department(models.Model):
+    code = models.CharField(max_length=20, unique=True)
+    title = models.CharField(max_length=80, unique=True)
+
+    def __str__(self):
+        return self.code
+
+
 class Course(models.Model):
-    title = models.CharField(choices=COURSE_CHOICES,
-                             max_length=20, unique=True)
-    chairperson_id = models.OneToOneField(
-        User, on_delete=models.CASCADE, unique=True)
-    college = models.CharField(choices=COLLEGE_CHOICES, max_length=40)
+    code = models.CharField(max_length=20, unique=True)
+    title = models.CharField(max_length=80, unique=True)
+    college_id = models.ForeignKey(Department, on_delete=models.CASCADE)
+    chairperson_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -76,13 +83,15 @@ class Schedule(models.Model):
 
 
 class Faculty(models.Model):
+    school_id = models.IntegerField(blank=True, null=True, unique=True)
     name = models.CharField(max_length=100)
     employment_status = models.CharField(
         choices=EMPLOYMENT_TYPE_CHOICES, max_length=10)
     schedule_id = models.ForeignKey(
         Schedule, on_delete=models.CASCADE, blank=True, null=True)
     total_units = models.IntegerField(blank=True, null=True)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    college_id = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name

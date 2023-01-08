@@ -5,7 +5,7 @@ from django.contrib import admin
 # admin.site.register(facultyMemberForm)
 
 from .models import (
-    Subject, Schedule, Faculty, Availability, Course)
+    Subject, Schedule, Faculty, Availability, Course, Department)
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -26,8 +26,12 @@ class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ('faculty_id', 'week_day', 'start_time', 'end_time')
 
 
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ('code', 'title')
+
+
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'chairperson_id', 'college')
+    list_display = ('code', 'title', 'chairperson_id')
 
 
 admin.site.register(Subject, SubjectAdmin)
@@ -35,3 +39,4 @@ admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(Availability, AvailabilityAdmin)
 admin.site.register(Course, CourseAdmin)
+admin.site.register(Department, DepartmentAdmin)

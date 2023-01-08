@@ -1,7 +1,3 @@
-<!-- 
-    TODO 
-        - Convert EJS to Jinja
--->
 {% extends "home/home-base.html" %}
 
 {% block sidebarAbout %}
@@ -21,21 +17,51 @@
 <div class="pb-4 justify-content-center border-top sched-list" style="overflow-y: scroll;">
     <div>
         <p>Blocks</p>
-        <% for(let i=0; i < blocks.length; i++) { %>
         <button class="btn btn-secondary btn-block p-3 text-start">
-        <h6 class="m-0 text-start">Block <%= blocks[i]["year"] %>-<%= blocks[i]["block"] %></h6>
+        <h6 class="m-0 text-start">Block 4-1</h6>
         </button>
-        <% } %>
+        <button class="btn btn-secondary btn-block p-3 text-start">
+        <h6 class="m-0 text-start">Block 3-1</h6>
+        </button>
+        <button class="btn btn-secondary btn-block p-3 text-start">
+        <h6 class="m-0 text-start">Block 2-1</h6>
+        </button>
+        <button class="btn btn-secondary btn-block p-3 text-start">
+        <h6 class="m-0 text-start">Block 1-1</h6>
+        </button>
     </div>
     <div class="border-top mt-3">
         <p>Faculty</p>
-        <% for(let i=0; i < instructors.length; i++) { %>
         <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
-            <h6><%= instructors[i]["name"] %></h6>
+            <h6>LAST NAME, FIRST NAME M.I.</h6>
             <!-- limit to 18 char -->
-            Expertise: <%= instructors[i]["expertise"] %>
+            Expertise: HCI, OPERATING SYSTEM
         </button>
-        <% } %>
+        <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+            <h6>LAST NAME, FIRST NAME M.I.</h6>
+            <!-- limit to 18 char -->
+            Expertise: HCI, OPERATING SYSTEM
+        </button>
+        <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+            <h6>LAST NAME, FIRST NAME M.I.</h6>
+            <!-- limit to 18 char -->
+            Expertise: HCI, OPERATING SYSTEM
+        </button>
+        <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+            <h6>LAST NAME, FIRST NAME M.I.</h6>
+            <!-- limit to 18 char -->
+            Expertise: HCI, OPERATING SYSTEM
+        </button>
+        <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+            <h6>LAST NAME, FIRST NAME M.I.</h6>
+            <!-- limit to 18 char -->
+            Expertise: HCI, OPERATING SYSTEM
+        </button>
+        <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+            <h6>LAST NAME, FIRST NAME M.I.</h6>
+            <!-- limit to 18 char -->
+            Expertise: HCI, OPERATING SYSTEM
+        </button>
     </div>
 </div>
 <script>

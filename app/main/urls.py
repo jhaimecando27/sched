@@ -11,4 +11,5 @@ urlpatterns = [
     path('department/', views.department, name='department'),
     path('faculty/', views.faculty, name='faculty'),
     path('faculty-form/', views.faculty_form, name='faculty form'),
+    path('ajax/load-courses/', views.load_courses, name='ajax_load_courses'),
 ]
