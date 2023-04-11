@@ -100,9 +100,11 @@ def block(request):
 
         # Get & Check Form
         if form.is_valid():
-            form.save()
+            num_blocks = form.cleaned_data['num_blocks']
+            course.num_blocks = num_blocks
+            course.save()
 
-    form = RoomForm()
+    form = CourseForm()
 
     context = {
         'college': college,
