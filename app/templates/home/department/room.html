@@ -1,4 +1,4 @@
-{% extends "home/home-base.html" %}
+{% extends "home/department/base.html" %}
 
 {% block sidebarAbout %}
 <div class="header text-start">
@@ -11,6 +11,9 @@
     </a>
     <a href="{% url 'main:room' %}" class="btn btn-primary btn-block ps-4 py-3 text-start btn-sm align-middle">
         <i class="fas fa-door-open fa-2x me-3"></i><h5 class="d-inline">Rooms</h5>
+    </a>
+    <a href="{% url 'main:faculty' %}" class="btn btn-secondary btn-block ps-4 py-3 text-start btn-sm align-middle">
+        <i class="fas fa-chalkboard-teacher fa-2x me-3"></i><h5 class="d-inline">Faculty</h5>
     </a>
 </div>
 {% endblock %}

@@ -1,0 +1,60 @@
+{% extends "home/base.html" %}
+{% block title %}
+    Department
+{% endblock title %}
+{% block navbar %}
+    <a class="btn btn-light rounded-0 px-1 w-100"
+       href="{% url 'main:profile' %}"
+       value="profile"
+       name="section">
+        <i class="far fa-user-circle fa-2x"></i>
+        <br/>
+        Profile
+    </a>
+    {% if request.session.is_chairperson == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:create_schedule' %}"
+           value="schedules"
+           name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Create
+        </a>
+        <a class="btn btn-secondary border-end border-4 border-primary rounded-0 px-1 w-100"
+           href="{% url 'main:subject' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-sitemap fa-2x mt-1"></i>
+            <br/>
+            <small>Department</small>
+        </a>
+    {% endif %}
+    {% if request.session.is_professor == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+            href="{% url 'main:schedule' %}"
+            name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Schedule
+        </a>
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:faculty_form' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-clipboard-check fa-2x mt-1"></i>
+            <br/>
+            <small>Preferences</small>
+        </a>
+    {% endif %}
+    <a role="button"
+       href="{% url 'account:logout' %}"
+       class="btn btn-light rounded-0 shadow-none px-1 mt-2">
+        <i class="fas fa-sign-out-alt fa-2x"></i>
+        <br/>
+        Log out
+    </a>
+{% endblock navbar %}
+{% block sidebarAbout %}
+{% endblock sidebarAbout %}
+{% block sidebarTask %}
+{% endblock sidebarTask %}

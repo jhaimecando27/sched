@@ -1,119 +1,188 @@
-{% extends "base.html" %}
+{% extends "home/base.html" %}
 {% load static %}
-
 {% block title %}
-Faculty Form
-{% endblock %}
-
+    Faculty Form
+{% endblock title %}
 {% block head %}
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <link rel="icon" href="images/favicon.ico">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
-        rel="stylesheet">
-    <!-- Override Fonts -->
-    <link rel="stylesheet" href="{% static 'faculty-form.css' %}">
-    <link rel="stylesheet" href="{% static 'custom.css' %}">
-    <!-- jQuery -->
-{% endblock %}
-
-{% block content %}
-    <div class="bg-light pt-4">
-        <h4 class="text-center px-3">New Faculty Schedule Preference</h4>
-        <hr>
-        <form method="post" id="facultyForm" data-branches-url="{% url 'main:ajax_load_courses' %}">
-            {% csrf_token %}
-
-            <label>Identification:</label>
-            <div class="form-outline mt-2">
-                <input required type="number" class="form-control" name="{{ faculty_form.school_id.name }}"/>
-                <label required class="form-label" for="inputId">Faculty I.D.</label>
-            </div>
-            <div class="form-outline mt-2">
-                <input required type="text" class="form-control" name="{{ faculty_form.name.name }}" 
-                    placeholder="LAST NAME, FIRST NAME M.I." />
-                <label class="form-label" for="inputName">Full Name</label>
-            </div>
-            <div class="form-outline mt-2">
-                <input required type="text" class="form-control" name="{{ faculty_form.expertise.name }}" 
-                    placeholder="Expertise" />
-                <label class="form-label" for="inputName">Expertise</label>
-            </div>
-            <br>
-            <div class="stack-control">
-                <label for="">Employment Status:</label>
-                <div class="form-group d-flex">
-                    <!-- Default radio -->
-                    <div id="id_{{ faculty_form.employment_status.name }}"><div>
-                            {% for status in faculty_form.employment_status %}
-                            <div>
-                                <input class="form-check-input" type="radio" name="{{ status.data.name }}" value="{{ status.data.value }}" required id="{{ status.data.attrs.id }}">
-                                <label class="form-check-label" for="{{ status.data.attrs.id }}">{{ status.data.label }}</label>
-                            </div>
-                            {% endfor %}
-                    </div>
+    <link rel="stylesheet" href="{% static 'faculty-form.css' %}"/>
+{% endblock head %}
+{% block navbar %}
+    <a class="btn btn-light rounded-0 px-1 w-100"
+       href="{% url 'main:profile' %}"
+       value="profile"
+       name="section">
+        <i class="far fa-user-circle fa-2x"></i>
+        <br/>
+        Profile
+    </a>
+    {% if request.session.is_chairperson == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:create_schedule' %}"
+           value="schedules"
+           name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Create
+        </a>
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:subject' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-sitemap fa-2x mt-1"></i>
+            <br/>
+            <small>Department</small>
+        </a>
+    {% endif %}
+    {% if request.session.is_professor == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+            href="{% url 'main:schedule' %}"
+            name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Schedule
+        </a>
+        <a class="btn btn-secondary border-end border-4 border-primary rounded-0 px-1 w-100"
+           href="{% url 'main:faculty_form' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-clipboard-check fa-2x mt-1"></i>
+            <br/>
+            <small>Preferences</small>
+        </a>
+    {% endif %}
+    <a role="button"
+       href="{% url 'account:logout' %}"
+       class="btn btn-light rounded-0 shadow-none px-1 mt-2">
+        <i class="fas fa-sign-out-alt fa-2x"></i>
+        <br/>
+        Log out
+    </a>
+{% endblock navbar %}
+{% block sidebarTask %}
+    <div class="bg-light task-view pt-4" id="preference-view">
+        <div class="px-5">
+            <label class="table-title fw-bold">Your Subject Expertises:</label>
+            <div class="mb-4 mt-2 w-100 stack-list" id="subjects-list">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle btn-rounded mt-1"
+                            type="button"
+                            id="day"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false">Add Field</button>
+                    <ul class="dropdown-menu" aria-labelledby="day">
+                        <li>
+                            <a class="dropdown-item" role="button">Human Computer Interaction</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" role="button">Intelligent Systems</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" role="button">Operating Systems</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" role="button">Introduction to Computing</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" role="button">CS Elective</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" role="button">Software Engineering 1</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <br>
-            <div>
-                <label for="" class="me-3">College:</label>
-                <select required class="form-select" name="{{ faculty_form.college_id.name }}" id="id_{{ faculty_form.college_id.name }}" class="btn-group dropend">
-                    {% for college in faculty_form.college_id %}
-                    <option class="dropdown-item" value="{{ college.data.index }}">{{ college.data.label }}</option>
-                    {% endfor %}
-                </select>
+            <label class="table-title fw-bold">Your Preferred Schedule:</label>
+            <table class="table table-bordered table-sm fw-bold mt-2 mb-4 w-50 editable"
+                   id="preferred-schedule">
+                <thead class="text-center">
+                    <tr>
+                        <th table-cts-column="day text" style="width: 160px;">Day</th>
+                        <th table-cts-column="start text">Time-in</th>
+                        <th table-cts-column="end text">Time-out</th>
+                        <td table-cts-column="edit">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr class="add-data">
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle add-td-input unique"
+                                        type="button"
+                                        data-mdb-toggle="dropdown"
+                                        aria-expanded="false">Day</button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" role="button">Monday</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" role="button">Tuesday</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" role="button">Wednesday</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" role="button">Thursday</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" role="button">Friday</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" role="button">Saturday</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" role="button">Sunday</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="time" class="form-control add-td-input">
+                        </td>
+                        <td>
+                            <input type="time" class="form-control add-td-input">
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="btn btn-primary text-center btn-rounded submit" type="button">Submit</button>
+        </div>
+    </div>
+    <script src="{% static 'js/responsive-table.js' %}"></script>
+    <script>
+    const prefSchedTable = new EditableTable("#preferred-schedule");
+    const expertises = [];
 
-                <label for="" class="me-3">Courses:</label>
-                <select required class="form-select" name="{{ faculty_form.course_id.name }}" id="id_{{ faculty_form.course_id.name }}" class="btn-group dropend">
-                    {% for course in facultyform.course_id %}
-                    <option class="dropdown-item" value="{{ course.data.index }}">{{ course.data.label }}</option>
-                    {% endfor %}
-                </select>
-
-
-            </div>
-            
-            <select required name="{{ availability_form.week_day.name }}" required="" id="id_{{ availability_form.week_day.name }}">
-                {% for day in availability_form.week_day %}
-                <option value="{{ day.data.value }}">{{ day.data.label }}</option>
-
-                {% endfor %}
-            </select>
-            <input type="time" name="{{ availability_form.start_time.name }}" required id="id_{{ availability_form.start_time.name }}">
-            <input type="time" name="{{ availability_form.end_time.name }}" required id="id_{{ availability_form.end_time.name }}">
-
-        <button type="submit">Save</button>
-  </form>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-
-
-<script>
-    $("#id_college_id").change(function () {
-      var url = $("#facultyForm").attr("data-branches-url");  
-      var collegeId = $(this).val();  
-
-      $.ajax({                      
-        url: url,                    
-        data: {
-          'college_id': collegeId       
-        },
-        success: function (data) {  
-          $("#id_course_id").html(data);  
-        }
-      });
+    const subjectsList = $("div.stack-list#subjects-list");
+    $(subjectsList).find(".dropdown-item").click((event) => {
+        let itemVal = event.currentTarget.textContent;
+        let newItem = $(`<button class="btn btn-outline-secondary btn-rounded stack-list-item" type="button">${itemVal}</button>`);
+        let listItem = $(event.currentTarget).parent("li");
+        $(newItem).click(() => {
+            expertises.pop();
+            $(newItem).remove();
+            $(listItem).show();
+        }).hover(
+            () => $(newItem).addClass("btn-outline-danger").removeClass("btn-outline-secondary"),
+            () => $(newItem).removeClass("btn-outline-danger").addClass("btn-outline-secondary")
+        );
+        $(event.currentTarget).closest(".dropdown").after(newItem);
+        $(listItem).hide();
+        expertises.push(itemVal);
 
     });
-  </script>
-{% endblock %}
 
-{% block js %}
-{% endblock %}
+    $("button.submit").click(() => {
+        $("#preference-view").empty().append("<h2>No Open Preference Forms</h2>");
+        $("#alert-modal").attr({ "data-mdb-backdrop": "static", "data-mdb-keyboard": "false" });
+        $("#alert-title").text("Your Preference is Recorded").addClass("text-success");
+        $("#alert-body").html(
+            "You're preferred subjects and schedule has been sent to the chairperson.<br>" +
+            "Your final schedule for next semester will be posted by the chairperson."
+        ).addClass("text-success");
+        alertModal.show();
+        // TODO: post answers to some api probableh
+    });
+    </script>
+{% endblock sidebarTask %}

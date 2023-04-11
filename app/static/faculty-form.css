@@ -1,23 +1,17 @@
-html,
-body {
-    background-color: #8673b4;
-    background-image: linear-gradient(to bottom right, #dbd4ebff, #8673b4);
-    height: 100%;
-    overflow: hidden;
-    justify-content: center;
+#preference-view {
+    text-align: start;
 }
 
-body>div {
-    display: grid;
-    width: 75%;
-    margin: 0 auto;
-    height: 100%;
-    grid-template-columns: auto;
-    align-items: start;
-    overflow-y: scroll;
-    padding: 42px;
-    overflow-x: hidden;
-    align-content: flex-start;
+.temp-fix {
+    grid-column: 2/4;
+}
+
+.temp-hide {
+    display: none !important;
+}
+
+.table-title {
+    font-size: 1rem;
 }
 
 button[type=submit] {

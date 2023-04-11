@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Class Scheduling System:
+            {% block title %}
+            {% endblock title %}
+        </title>
+        <meta charset='utf-8'/>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'/>
+        <link rel="icon" href="images/favicon.ico"/>
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+              rel="stylesheet"/>
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css"
+              rel="stylesheet"/>
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
+              rel="stylesheet"/>
+        <!-- Override Fonts -->
+        <link rel="stylesheet" href="{% static 'custom.css' %}"/>
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="{% static 'chair-dashb.css' %}"/>
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        <div class="dashboard">
+            <div class="nav-bar">
+                {% block navbar %}
+                {% endblock navbar %}
+            </div>
+            <div class="about px-4 pt-4 temp-hide">
+                {% block sidebarAbout %}
+                {% endblock sidebarAbout %}
+            </div>
+            <div class="pt-2 temp-fix" style="background-color: thistle;">
+                <h5>
+                    A.Y. 20XX-20XX (N<sup>th</sup> Semester)
+                    <br/>
+                    <small class="text-muted fw-normal">Current Academic Term</small>
+                </h5>
+            </div>
+            <div class="task temp-fix">
+                {% block sidebarTask %}
+                {% endblock sidebarTask %}
+            </div>
+            <!-- MDB *best placed right before closing body tag* -->
+            <script type="text/javascript"
+                    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+            <script>
+                let section = "<%- section %>"
+                let navs = $(".nav-bar>form>button").get();
+                navs.forEach(sect => {
+                    if ($(sect).val() == section) {
+                        $(sect).toggleClass("btn-secondary btn-light");
+                    }
+                });
+            </script>
+            {% block script %}
+            {% endblock script %}
+        </div>
+    </body>
+</html>

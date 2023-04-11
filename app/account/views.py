@@ -3,6 +3,8 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
+from main.models import extendUser
+
 
 # Ref 1: https://docs.djangoproject.com/en/4.1/topics/auth/default/#how-to-log-a-user-in
 def login_user(request):
@@ -32,6 +34,12 @@ def login_user(request):
             # Redirect to a success page.
             if user is not None:
                 login(request, user)
+
+                status = extendUser.objects.get(user=request.user.id)
+
+                request.session['is_chairperson'] = status.is_chairperson
+                request.session['is_professor'] = status.is_professor
+
                 return redirect('main:profile')
                 # return redirect('home')
 

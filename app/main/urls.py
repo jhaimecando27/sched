@@ -7,7 +7,8 @@ app_name = 'main'
 urlpatterns = [
     path('', views.profile, name='profile'),
     path('profile/', views.profile, name='profile'),
-    path('schedules/', views.schedules, name='schedules'),
+    path('create-schedule/', views.create_schedule, name='create_schedule'),
+    path('schedule/', views.schedule, name='schedule'),
 
     path('block/', views.block, name='block'),
 
@@ -18,7 +19,7 @@ urlpatterns = [
     path('<int:room_id>/del_room/', views.del_room, name='del_room'),
 
     path('faculty/', views.faculty, name='faculty'),
-    path('faculty-form/', views.faculty_form, name='faculty form'),
+    path('faculty-form/', views.faculty_form, name='faculty_form'),
     path('ajax/load-courses/', views.load_courses, name='ajax_load_courses'),
 
 ]

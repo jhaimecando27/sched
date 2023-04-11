@@ -1,84 +1,91 @@
-{% extends "base.html" %}
 {% load static %}
-
-{% block title %}
-Login
-{% endblock %}
-
-{% block head %}
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-<!-- MDB -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
-    rel="stylesheet">
-<!-- Custom CSS !important -->
-
-<link rel="stylesheet" href="{% static 'home.css' %}">
-<link rel="stylesheet" href="{% static 'custom.css'%}">
-{% endblock %}
-
-{% block content %}
-    <div class="gradient-form">
-        <div class="card">
-            <div class="card-body p-md-5" id="info-section">
-                <h3 class="card-title mb-5">From the Javawockeez Team</h3>
-                <p class="card-text">
-                    This is simply a dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a
-                    type specimen book. Wabalabadubdub.. boop!
-                </p>
-            </div>
-            <div class="card-body p-md-5" id="form-section">
-                <div class="text-center">
-                    <img src="{% static 'images/css-logo.png' %}" alt="logo" style="max-height: 90px; width:auto; min-height: 50px;"
-                        class="mb-2">
-                    <h2 class="card-title">Let's get started!</h2>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Class Scheduling System: Login</title>
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+              rel="stylesheet"/>
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css"
+              rel="stylesheet"/>
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu:wght@400;700&display=swap"
+              rel="stylesheet"/>
+        <!-- Custom CSS !important -->
+        <link rel="stylesheet" href="{% static 'home.css' %}"/>
+        <link rel="stylesheet" href="{% static 'custom.css' %}"/>
+    </head>
+    <body>
+        <div class="gradient-form">
+            <div class="card">
+                <div class="card-body p-md-5" id="info-section">
+                    <h3 class="card-title mb-5">From the Javawockeez Team</h3>
+                    <p class="card-text">
+                        This is simply a dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and scrambled it to make a
+                        type specimen book. Wabalabadubdub.. boop!
+                    </p>
                 </div>
-                <p class="mt-5">Please log in to your account</p>
-                <form action="{% url 'account:login' %}" method="post">
-                {% csrf_token %}
-                    <div class="input-group input-group-lg my-4 shadow-0 align-items-center">
-                        <span class="input-group-text">
-                            <i class="fas fa-user fa-lg"></i>
-                        </span>
-                        <div class="form-outline">
-                            <input type="text" class="form-control form-control-lg shadow-0" name="{{ form.username.name }}" required
-                                value="" />
-                            <label class="form-label" for="schoolName">Username</label>
+                <div class="card-body p-md-5" id="form-section">
+                    <div class="text-center">
+                        <img src="{% static 'images/css-logo.png' %}"
+                             alt="logo"
+                             style="max-height: 90px;
+                                    width:auto;
+                                    min-height: 50px"
+                             class="mb-2">
+                        <h2 class="card-title">Let's get started!</h2>
+                    </div>
+                    <p class="mt-5">Please log in to your account</p>
+                    <form action="{% url 'account:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group input-group-lg my-4 shadow-0 align-items-center">
+                            <span class="input-group-text">
+                                <i class="fas fa-user fa-lg"></i>
+                            </span>
+                            <div class="form-outline">
+                                <input type="text"
+                                       class="form-control form-control-lg shadow-0"
+                                       name="{{ form.username.name }}"
+                                       required
+                                       value=""/>
+                                <label class="form-label" for="schoolName">Username</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-group input-group-lg mb-4 shadow-0 align-items-center">
-                        <span class="input-group-text border-end-0"><i class="fas fa-lock fa-lg mr-2"></i></span>
-                        <div class="form-outline border-start-0">
-                            <input type="password" class="form-control form-control-lg" name="{{ form.password.name }}" required
-                                value="" />
-                            <label class="form-label" for="password">Password</label>
+                        <div class="input-group input-group-lg mb-4 shadow-0 align-items-center">
+                            <span class="input-group-text border-end-0"><i class="fas fa-lock fa-lg mr-2"></i></span>
+                            <div class="form-outline border-start-0">
+                                <input type="password"
+                                       class="form-control form-control-lg"
+                                       name="{{ form.password.name }}"
+                                       required
+                                       value=""/>
+                                <label class="form-label" for="password">Password</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-center py-1 mb-4">
-                        <button class="btn btn-primary btn-block rounded-pill btn-lg mb-2" type="submit">Log
-                            in</button>
-                        <a class="text-muted" href="{% url 'account:password_reset' %}"><small>Forgot password?</small></a>
-                        <!-- must lead to reset.html to get their username -->
-                    </div>
-                    <div>
-                        {% if messages %}
-                        {% for message in messages %}
-                            {{ message }}
-                        {% endfor %}
-                        {% endif %}
-                    </div>
-                </form>
+                        <div class="text-center py-1 mb-4">
+                            <button class="btn btn-primary btn-block rounded-pill btn-lg mb-2"
+                                    type="submit">
+                                Log
+                                in
+                            </button>
+                            <a class="text-muted" href="{% url 'account:password_reset' %}"><small>Forgot password?</small></a>
+                            <!-- must lead to reset.html to get their username -->
+                        </div>
+                        <div>
+                            {% if messages %}
+                                {% for message in messages %}{{ message }}{% endfor %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-{% endblock %}
-
-{% block js %}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
-{% endblock %}
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+    </body>
+</html>

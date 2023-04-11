@@ -1,0 +1,220 @@
+{% extends "home/base.html" %}
+{% block title %}
+    Schedules
+{% endblock title %}
+{% block navbar %}
+    <a class="btn btn-light rounded-0 px-1 w-100"
+       href="{% url 'main:profile' %}"
+       value="profile"
+       name="section">
+        <i class="far fa-user-circle fa-2x"></i>
+        <br/>
+        Profile
+    </a>
+    {% if request.session.is_chairperson == True %}
+        <a class="btn btn-secondary border-end border-4 border-primary rounded-0 px-1 w-100"
+           href="{% url 'main:create_schedule' %}"
+           value="schedules"
+           name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Create
+        </a>
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:subject' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-sitemap fa-2x mt-1"></i>
+            <br/>
+            <small>Department</small>
+        </a>
+    {% endif %}
+    {% if request.session.is_professor == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+            href="{% url 'main:schedule' %}"
+            name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Schedule
+        </a>
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:faculty_form' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-clipboard-check fa-2x mt-1"></i>
+            <br/>
+            <small>Preferences</small>
+        </a>
+    {% endif %}
+    <a role="button"
+       href="{% url 'account:logout' %}"
+       class="btn btn-light rounded-0 shadow-none px-1 mt-2">
+        <i class="fas fa-sign-out-alt fa-2x"></i>
+        <br/>
+        Log out
+    </a>
+{% endblock navbar %}
+{% block sidebarAbout %}
+    <div class="header">
+        <h4>Schedules</h4>
+        <form action="/chair" method="get" class="input-group">
+            <input type="text"
+                   class="form-control border-end-0"
+                   placeholder="e.g. 20201"
+                   aria-label="Username"
+                   aria-describedby="basic-addon1"
+                   value="20221"/>
+            <button class="input-group-text" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+        <div class="stacked-btns">
+            <button class="btn btn-secondary btn-rounded btn-sm m-0">Blocks</button>
+            <button class="btn btn-secondary btn-rounded btn-sm">Faculty</button>
+            <button class="btn btn-outline-secondary btn-rounded btn-sm">All</button>
+        </div>
+    </div>
+    <div class="pb-4 justify-content-center border-top sched-list"
+         style="overflow-y: scroll">
+        <div>
+            <p>Blocks</p>
+            <button class="btn btn-secondary btn-block p-3 text-start">
+                <h6 class="m-0 text-start">Block 4-1</h6>
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start">
+                <h6 class="m-0 text-start">Block 3-1</h6>
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start">
+                <h6 class="m-0 text-start">Block 2-1</h6>
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start">
+                <h6 class="m-0 text-start">Block 1-1</h6>
+            </button>
+        </div>
+        <div class="border-top mt-3">
+            <p>Faculty</p>
+            <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+                <h6>LAST NAME, FIRST NAME M.I.</h6>
+                <!-- limit to 18 char -->
+                Expertise: HCI, OPERATING SYSTEM
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+                <h6>LAST NAME, FIRST NAME M.I.</h6>
+                <!-- limit to 18 char -->
+                Expertise: HCI, OPERATING SYSTEM
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+                <h6>LAST NAME, FIRST NAME M.I.</h6>
+                <!-- limit to 18 char -->
+                Expertise: HCI, OPERATING SYSTEM
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+                <h6>LAST NAME, FIRST NAME M.I.</h6>
+                <!-- limit to 18 char -->
+                Expertise: HCI, OPERATING SYSTEM
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+                <h6>LAST NAME, FIRST NAME M.I.</h6>
+                <!-- limit to 18 char -->
+                Expertise: HCI, OPERATING SYSTEM
+            </button>
+            <button class="btn btn-secondary btn-block p-3 text-start btn-sm">
+                <h6>LAST NAME, FIRST NAME M.I.</h6>
+                <!-- limit to 18 char -->
+                Expertise: HCI, OPERATING SYSTEM
+            </button>
+        </div>
+    </div>
+    <script>
+    let options = $("div.stacked-btns>button").get();
+    let schedList = $(".sched-list>div").get();
+    let blockList = $(schedList)[0];
+    let facultyList = $(schedList)[1];
+    let allOpt = $(options)[options.length-1];
+    console.log(blockList, facultyList);
+    options.forEach(option => {
+        let text = $(option).text();
+        $(option).click(() => {
+            text = $(option).text();
+            if (text === "All") {
+                for (let i = 0; i < options.length-1; i++) {
+                    $(options[i]).removeClass("btn-outline-secondary");
+                    $(options[i]).addClass("btn-secondary");
+                }
+                $(blockList).show();
+                $(facultyList).show();
+            } else if ($(option).hasClass("btn-outline-secondary")) {
+                $(option).addClass("btn-secondary");
+                $(option).removeClass("btn-outline-secondary");
+                if (text == "Blocks") { $(blockList).show(); }
+                else { $(facultyList).show(); }
+            } else {
+                $(option).addClass("btn-outline-secondary");
+                $(option).removeClass("btn-secondary");
+                if (text == "Blocks") { $(blockList).hide(); }
+                else { $(facultyList).hide(); }
+            }
+        })
+    })
+    </script>
+{% endblock sidebarAbout %}
+{% block sidebarTask %}
+    <div class="task-info">
+        <div class="me-5">
+            <h4>Year 1 - Block 2</h4>
+            <p>
+                <b>Schedule status: Incomplete</b>
+            </p>
+        </div>
+        <div>
+            <button class="btn btn-warning btn-floating col-md me-1" title="Edit">
+                <i class="fas fa-edit fa-lg"></i>
+            </button>
+            <button class="btn btn-warning btn-floating col-md me-1" title="Export file">
+                <i class="fas fa-file-download fa-lg"></i>
+            </button>
+            <button class="btn btn-success btn-rounded col-md me-1">Submit and Close</button>
+        </div>
+    </div>
+    <ul class="header text-uppercase"
+        style="padding-left: 8%;
+               background-color: #e7d1e7">
+        <li class="border-start border-dark">MON</li>
+        <li class="border-start border-dark">TUE</li>
+        <li class="border-start border-dark">WED</li>
+        <li class="border-start border-dark">THU</li>
+        <li class="border-start border-dark">FRI</li>
+        <li class="border-start border-dark">SAT</li>
+        <li class="border-start border-end border-dark">
+            SUN
+        </li>
+    </ul>
+    <div class="schedule">
+        <div class="time">
+            <h6>
+                <small>
+                </small>
+            </h6>
+        </div>
+        <div class="sched-container">
+            <div class="card mon rounded-0" style="grid-row: 1/4;">
+                <div class="card-body bg-light rounded-5 mx-1 my-0">
+                    <h6 class="card-title m-0">
+                    </h6>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+    <script>
+    $("div.schedule").scrollTop(300);
+        $("div.schedule").scroll(() => {
+            if ($("div.schedule").scrollTop() < 12) {
+                $("div.task>ul.header").css("box-shadow", "none").fadeIn("slow");
+            } else {
+                $("div.task>ul.header").css("box-shadow", "0 6px 10px #6142615F");
+            }
+    });
+    </script>
+{% endblock sidebarTask %}

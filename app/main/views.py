@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, reverse
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from .forms import FacultyForm, AvailabilityForm, SubjectForm, RoomForm, CourseForm
-from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject, Room
+from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject, Room, extendUser
 
 
 # Ref 1: https://stackoverflow.com/questions/2245895/is-there-a-simple-way-to-get-group-names-of-a-user-in-django
@@ -12,13 +12,23 @@ from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOI
 def profile(request):
     current_user = request.user
 
-    return render(request, 'home/profile.html', {'current_user': current_user})
+    context = {
+        'current_user': current_user,
+    }
+
+    return render(request, 'home/profile.html', context)
 
 
 @login_required(login_url='/account/login/')
-def schedules(request):
+def create_schedule(request):
     # TODO
-    return render(request, 'home/schedules.html', {})
+    return render(request, 'home/create_schedule.html', {})
+
+
+@login_required(login_url='/account/login/')
+def schedule(request):
+    # TODO
+    return render(request, 'home/schedule.html', {})
 
 
 @login_required(login_url='/account/login/')
@@ -47,7 +57,7 @@ def subject(request):
         'form': form,
     }
 
-    return render(request, 'home/subject.html', context)
+    return render(request, 'home/department/subject.html', context)
 
 
 @login_required(login_url='/account/login/')
@@ -74,7 +84,7 @@ def room(request):
         'form': form,
     }
 
-    return render(request, 'home/room.html', context)
+    return render(request, 'home/department/room.html', context)
 
 
 @login_required(login_url='/account/login/')
@@ -100,7 +110,7 @@ def block(request):
         'form': form,
     }
 
-    return render(request, 'home/block.html', context)
+    return render(request, 'home/department/block.html', context)
 
 
 @login_required(login_url='/account/login/')
@@ -115,7 +125,7 @@ def faculty(request):
         'college': college
     }
 
-    return render(request, 'home/faculty.html', context)
+    return render(request, 'home/department/faculty.html', context)
 
 
 def faculty_form(request):

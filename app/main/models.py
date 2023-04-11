@@ -57,7 +57,7 @@ class Course(models.Model):
 class Subject(models.Model):
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     code = models.CharField(max_length=20)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=64)
     units = models.IntegerField(default=False)
 
 

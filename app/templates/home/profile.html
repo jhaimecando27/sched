@@ -1,102 +1,180 @@
-{% extends "home/home-base.html" %}
-
+{% extends "home/base.html" %}
+{% block title %}
+    Profile
+{% endblock title %}
+{% block navbar %}
+    <a class="btn btn-secondary border-end border-4 border-primary rounded-0 px-1 w-100"
+       href="{% url 'main:profile' %}"
+       value="profile"
+       name="section">
+        <i class="far fa-user-circle fa-2x"></i>
+        <br/>
+        Profile
+    </a>
+    {% if request.session.is_chairperson == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:create_schedule' %}"
+           value="schedules"
+           name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Create
+        </a>
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:subject' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-sitemap fa-2x mt-1"></i>
+            <br/>
+            <small>Department</small>
+        </a>
+    {% endif %}
+    {% if request.session.is_professor == True %}
+        <a class="btn btn-light rounded-0 px-1 w-100"
+            href="{% url 'main:schedule' %}"
+            name="section">
+            <i class="fas fa-calendar-day fa-2x"></i>
+            <br/>
+            Schedule
+        </a>
+        <a class="btn btn-light rounded-0 px-1 w-100"
+           href="{% url 'main:faculty_form' %}"
+           value="dept"
+           name="section">
+            <i class="fas fa-clipboard-check fa-2x mt-1"></i>
+            <br/>
+            <small>Preferences</small>
+        </a>
+    {% endif %}
+    <a role="button"
+       href="{% url 'account:logout' %}"
+       class="btn btn-light rounded-0 shadow-none px-1 mt-2">
+        <i class="fas fa-sign-out-alt fa-2x"></i>
+        <br/>
+        Log out
+    </a>
+{% endblock navbar %}
 {% block sidebarAbout %}
-<div class="text-start">
-    <h5>Computer Science Department</h5>
-    <h6 class="bg-light p-2 border-top border-bottom mt-4">Chairperson</h6>
-    <div class="d-flex align-items-center my-3">
-        <img src="/images/profile-pic.jpg" alt="" style="width: 45px; height: 45px"
-            class="rounded-circle" />
-        <div class="ms-3 text-start">
-            <p class="fw-bold mb-1">
-            {{ current_user.first_name }}<br>
-                <small class="text-success">{{ current_user.email }}</small>
-            </p>
-        </div>
-    </div>
-    <h6 class="bg-light p-2 border-top border-bottom">About</h6>
-    <ul class="list-group list-group-small list-group-light mb-3 fs-6">
-        <li class="list-group-item">
-            <span class="text-muted">Position: </span>Instructor III
-        </li>
-        <li class="list-group-item">
-            <span class="text-muted">Consultation Hours:<br></span>
-            TUE (7:30-11:30 AM)<br>WED (1:00-2:00 PM)<br>THU (8:00-11:30 AM)
-        </li>
-        <hr>
-    </ul>
-    <button class="btn btn-outline-secondary btn-block btn-sm btn-rounded">Edit profile</button>
-    <a href="{% url 'password_reset' %}" class="btn btn-outline-secondary btn-block btn-sm btn-rounded">Change password</a>
-</div>
-{% endblock %}
-
-{% block sidebarTask %}
-<div class="px-5 py-4 text-start fs-6">
-    <div class="modal fade" id="profile-modal" tabindex="-1" aria-labelledby="chair-name" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="chair-name">Modal title</h5>
-                </div>
-                <div class="modal-body">...</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+    <div class="text-start">
+        <h5>Computer Science Department</h5>
+        <h6 class="bg-light p-2 border-top border-bottom mt-4">Chairperson</h6>
+        <div class="d-flex align-items-center my-3">
+            <img src="/images/profile-pic.jpg"
+                 alt=""
+                 style="width: 45px;
+                        height: 45px"
+                 class="rounded-circle"/>
+            <div class="ms-3 text-start">
+                <p class="fw-bold mb-1">
+                    {{ current_user.first_name }}
+                    <br/>
+                    <small class="text-success">{{ current_user.email }}</small>
+                </p>
             </div>
         </div>
-    </div>
-    <h5>Department Statistics</h5>
-    <div class="d-flex justify-content-between align-items-center w-75 mb-5 mt-3 stats">
-        <div class="flex-fill rounded-5 py-3 px-4 bg-white">
-            <div class="d-block mb-2">
-                <i class="fas fa-users text-primary p-2 rounded-circle" style="background-color: #E1F5FE;"></i>
-            </div>
-            <h4 class="d-inline">1,198</h4>
-            <small class="d-block text-muted">Students enrolled</small>
-        </div>
-        <div class="flex-fill rounded-5 py-3 px-4 bg-white mx-3">
-            <div class="d-block mb-2">
-                <i class="fas fa-star text-success p-2 rounded-circle" style="background-color: #E8F5E9;"></i>
-            </div>
-            <h4 class="d-inline">10</h4>
-            <small class="text-success ms-2">71%</small>
-            <small class="d-block text-muted">Full-time Faculty</small>
-        </div>
-        <div class="flex-fill rounded-5 py-3 px-4 bg-white">
-            <div class="d-block mb-2">
-                <i class="fas fa-clipboard-list text-warning p-2 rounded-circle" style="background-color: #FFFDE7;"></i>
-            </div>
-            <h4 class="d-inline">4</h4>
-            <small class="text-success ms-2">29%</small>
-            <small class="d-block text-muted">Part-time Faculty</small>
-        </div>
-    </div>
-    <div>
-        <h3>
-            Pamantasan ng Lungsod ng Maynila<br>
-            <small class="text-secondary fs-5">College of Engineering and Technology Chairpersons</small>
-        </h3>
-        <ul class="list-group list-group-light border-top border-bottom mt-3">
+        <h6 class="bg-light p-2 border-top border-bottom">About</h6>
+        <ul class="list-group list-group-small list-group-light mb-3 fs-6">
             <li class="list-group-item">
-                <div>
-                    <div class="fw-bold">Dela Cruz, John Doe A.</div>
-                    <div class="text-muted">Information Technology Department</div>
-                </div>
+                <span class="text-muted">Position:</span>Instructor III
             </li>
             <li class="list-group-item">
-                <div>
-                    <div class="fw-bold">Dela Cruz, John Doe A.</div>
-                    <div class="text-muted">Chemical Engineering Department</div>
-                </div>
+                <span class="text-muted">Consultation Hours:
+                    <br/>
+                </span>
+                TUE (7:30-11:30 AM)
+                <br/>
+                WED (1:00-2:00 PM)
+                <br/>
+                THU (8:00-11:30 AM)
             </li>
-            <li class="list-group-item">
-                <div>
-                    <div class="fw-bold">Dela Cruz, John Doe A.</div>
-                    <div class="text-muted">Civil Engineering Department</div>
-                </div>
-            </li>
+            <hr/>
         </ul>
+        <button class="btn btn-outline-secondary btn-block btn-sm btn-rounded">Edit profile</button>
+        <a href="{% url 'password_reset' %}"
+           class="btn btn-outline-secondary btn-block btn-sm btn-rounded">Change password</a>
     </div>
-</div>
-{% endblock %}
+{% endblock sidebarAbout %}
+{% block sidebarTask %}
+    <div class="px-5 py-4 text-start fs-6">
+        <div class="modal fade"
+             id="profile-modal"
+             tabindex="-1"
+             aria-labelledby="chair-name"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="chair-name">Modal title</h5>
+                    </div>
+                    <div class="modal-body">...</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h5>Department Statistics</h5>
+        <div class="d-flex justify-content-between align-items-center w-75 mb-5 mt-3 stats">
+            <div class="flex-fill rounded-5 py-3 px-4 bg-white">
+                <div class="d-block mb-2">
+                    <i class="fas fa-users text-primary p-2 rounded-circle"
+                       style="background-color: #E1F5FE"></i>
+                </div>
+                <h4 class="d-inline">1,198</h4>
+                <small class="d-block text-muted">Students enrolled</small>
+            </div>
+            <div class="flex-fill rounded-5 py-3 px-4 bg-white mx-3">
+                <div class="d-block mb-2">
+                    <i class="fas fa-star text-success p-2 rounded-circle"
+                       style="background-color: #E8F5E9"></i>
+                </div>
+                <h4 class="d-inline">10</h4>
+                <small class="text-success ms-2">71%</small>
+                <small class="d-block text-muted">Full-time Faculty</small>
+            </div>
+            <div class="flex-fill rounded-5 py-3 px-4 bg-white">
+                <div class="d-block mb-2">
+                    <i class="fas fa-clipboard-list text-warning p-2 rounded-circle"
+                       style="background-color: #FFFDE7"></i>
+                </div>
+                <h4 class="d-inline">4</h4>
+                <small class="text-success ms-2">29%</small>
+                <small class="d-block text-muted">Part-time Faculty</small>
+            </div>
+        </div>
+        <div>
+            <h3>
+                Pamantasan ng Lungsod ng Maynila
+                <br/>
+                <small class="text-secondary fs-5">College of Engineering and Technology Chairpersons</small>
+            </h3>
+            <ul class="list-group list-group-light border-top border-bottom mt-3">
+                <li class="list-group-item">
+                    <div>
+                        <div class="fw-bold">Dela Cruz, John Doe A.</div>
+                        <div class="text-muted">Information Technology Department</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <div class="fw-bold">Dela Cruz, John Doe A.</div>
+                        <div class="text-muted">
+                            Chemical Engineering Department
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <div class="fw-bold">
+                            Dela Cruz, John Doe A.
+                        </div>
+                        <div class="text-muted">
+                            Civil Engineering Department
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock sidebarTask %}
