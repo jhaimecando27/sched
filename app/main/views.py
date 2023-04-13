@@ -4,16 +4,51 @@ from django.shortcuts import get_object_or_404, render, reverse
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from .forms import FacultyForm, AvailabilityForm, SubjectForm, RoomForm, CourseForm
-from .models import Availability, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject, Room, extendUser
+from .models import Availability, EMPLOYMENT_TYPE_CHOICES, WEEK_DAY_CHOICES, COLLEGE_CHOICES, COURSE_CHOICES, Department, Course, Faculty, Subject, Room, extendUser
 
 
 # Ref 1: https://stackoverflow.com/questions/2245895/is-there-a-simple-way-to-get-group-names-of-a-user-in-django
 @login_required(login_url='/account/login/')
 def profile(request):
+
+    course = None
     current_user = request.user
+    course_id = None
+    course_title = None
+    dept_id = None
+
+    if request.session['is_chairperson'] == True:
+        course = Course.objects.filter(chairperson_id=current_user.id).first()
+        course_id = course.id
+        course_title = course.title
+        dept_id = course.college_id
+    elif request.session['is_professor'] == True:
+        faculty = Faculty.objects.filter(user=current_user.id).first()
+        course_id = faculty.course_id
+        course = Course.objects.filter(id=faculty.course_id.id).first()
+        course_title = course.title
+        dept_id = course.college_id
+
+    list_chair = Course.objects.all().select_related('chairperson_id').select_related('college_id').filter(college_id=dept_id.id)
+
+    dept_title = dept_id.title
+
+    faculty_pt = Faculty.objects.all().filter(course_id=course_id, employment_status=EMPLOYMENT_TYPE_CHOICES[0][0]).count()
+    faculty_ft = Faculty.objects.all().filter(course_id=course_id, employment_status=EMPLOYMENT_TYPE_CHOICES[1][0]).count()
+    faculty_all = Faculty.objects.all().filter(course_id=course_id).count()
+
+    ave_pt = (faculty_pt / faculty_all) * 100
+    ave_ft = (faculty_ft / faculty_all) * 100
 
     context = {
         'current_user': current_user,
+        'ave_pt': ave_pt,
+        'ave_ft': ave_ft,
+        'faculty_ft': faculty_ft,
+        'faculty_pt': faculty_pt,
+        'course_title': course_title,
+        'dept_title': dept_title,
+        'list_chair': list_chair,
     }
 
     return render(request, 'home/profile.html', context)

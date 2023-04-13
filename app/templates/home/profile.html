@@ -56,16 +56,17 @@
 {% endblock navbar %}
 {% block sidebarAbout %}
     <div class="text-start">
-        <h5>Computer Science Department</h5>
-        <h6 class="bg-light p-2 border-top border-bottom mt-4">Chairperson</h6>
+        <h5>{{ course_title }} Department</h5>
+        <h6 class="bg-light p-2 border-top border-bottom mt-4">{{ current_user.username }}</h6>
         <div class="d-flex align-items-center my-3">
-            <img src="/images/profile-pic.jpg"
-                 alt=""
+            <div
                  style="width: 45px;
-                        height: 45px"
-                 class="rounded-circle"/>
+                        height: 45px;"
+                 class="rounded-circle">
+                <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
+            </div>
             <div class="ms-3 text-start">
-                <p class="fw-bold mb-1">
+                <p class="fs-5 fw-bold mb-1">
                     {{ current_user.first_name }}
                     <br/>
                     <small class="text-success">{{ current_user.email }}</small>
@@ -75,17 +76,15 @@
         <h6 class="bg-light p-2 border-top border-bottom">About</h6>
         <ul class="list-group list-group-small list-group-light mb-3 fs-6">
             <li class="list-group-item">
-                <span class="text-muted">Position:</span>Instructor III
-            </li>
-            <li class="list-group-item">
-                <span class="text-muted">Consultation Hours:
+                <span class="text-muted">Position:</span>
+                {% if request.session.is_chairperson == True %}
                     <br/>
-                </span>
-                TUE (7:30-11:30 AM)
-                <br/>
-                WED (1:00-2:00 PM)
-                <br/>
-                THU (8:00-11:30 AM)
+                    Chairperson
+                {% endif %}
+                {% if request.session.is_professor == True %}
+                    <br/>
+                    Professor
+                {% endif %}
             </li>
             <hr/>
         </ul>
@@ -116,21 +115,13 @@
         </div>
         <h5>Department Statistics</h5>
         <div class="d-flex justify-content-between align-items-center w-75 mb-5 mt-3 stats">
-            <div class="flex-fill rounded-5 py-3 px-4 bg-white">
-                <div class="d-block mb-2">
-                    <i class="fas fa-users text-primary p-2 rounded-circle"
-                       style="background-color: #E1F5FE"></i>
-                </div>
-                <h4 class="d-inline">1,198</h4>
-                <small class="d-block text-muted">Students enrolled</small>
-            </div>
             <div class="flex-fill rounded-5 py-3 px-4 bg-white mx-3">
                 <div class="d-block mb-2">
                     <i class="fas fa-star text-success p-2 rounded-circle"
                        style="background-color: #E8F5E9"></i>
                 </div>
-                <h4 class="d-inline">10</h4>
-                <small class="text-success ms-2">71%</small>
+                <h4 class="d-inline">{{ faculty_ft }}</h4>
+                <small class="text-success ms-2">{{ ave_ft | floatformat:2 }}%</small>
                 <small class="d-block text-muted">Full-time Faculty</small>
             </div>
             <div class="flex-fill rounded-5 py-3 px-4 bg-white">
@@ -138,8 +129,8 @@
                     <i class="fas fa-clipboard-list text-warning p-2 rounded-circle"
                        style="background-color: #FFFDE7"></i>
                 </div>
-                <h4 class="d-inline">4</h4>
-                <small class="text-success ms-2">29%</small>
+                <h4 class="d-inline">{{ faculty_pt }}</h4>
+                <small class="text-success ms-2">{{ ave_pt | floatformat:2 }}%</small>
                 <small class="d-block text-muted">Part-time Faculty</small>
             </div>
         </div>
@@ -147,33 +138,21 @@
             <h3>
                 Pamantasan ng Lungsod ng Maynila
                 <br/>
-                <small class="text-secondary fs-5">College of Engineering and Technology Chairpersons</small>
+                <small class="text-secondary fs-5">{{ dept_title }} Chairpersons</small>
             </h3>
             <ul class="list-group list-group-light border-top border-bottom mt-3">
-                <li class="list-group-item">
-                    <div>
-                        <div class="fw-bold">Dela Cruz, John Doe A.</div>
-                        <div class="text-muted">Information Technology Department</div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <div class="fw-bold">Dela Cruz, John Doe A.</div>
-                        <div class="text-muted">
-                            Chemical Engineering Department
-                        </div>
-                    </div>
-                </li>
+                {% for chair in list_chair %}
                 <li class="list-group-item">
                     <div>
                         <div class="fw-bold">
-                            Dela Cruz, John Doe A.
+                            {{ chair.chairperson_id.last_name }}, {{ chair.chairperson_id.first_name }}
                         </div>
                         <div class="text-muted">
-                            Civil Engineering Department
+                            {{ chair.title }}
                         </div>
                     </div>
                 </li>
+                {% endfor %}
             </ul>
         </div>
     </div>

@@ -50,9 +50,6 @@ class Course(models.Model):
     chairperson_id = models.ForeignKey(User, on_delete=models.CASCADE)
     num_blocks = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return self.title
-
 
 class Subject(models.Model):
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -76,20 +73,13 @@ class Schedule(models.Model):
 
 
 class Faculty(models.Model):
-    school_id = models.IntegerField(blank=True, null=True, unique=True)
-    name = models.CharField(max_length=100)
-    expertise = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     employment_status = models.CharField(
         choices=EMPLOYMENT_TYPE_CHOICES, max_length=10)
     schedule_id = models.ForeignKey(
         Schedule, on_delete=models.CASCADE, blank=True, null=True)
     total_units = models.IntegerField(blank=True, null=True)
-    college_id = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, null=True)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.name
 
 
 class Availability(models.Model):

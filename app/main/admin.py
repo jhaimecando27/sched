@@ -17,7 +17,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 
 class FacultyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'employment_status',
+    list_display = ('user', 'employment_status',
                     'schedule_id', 'total_units', 'course_id')
 
 
