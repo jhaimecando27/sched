@@ -54,7 +54,7 @@
                     <form action="{% url 'main:subject' %}" method="post">
                     {% csrf_token %}
                     <td><input type="text" name="{{ form.code.name }}" placeholder="Code"></td>
-                    <td><input type="text" name="{{ form.title.name }}" placeholder="Title"></td>
+                    <td><input type="text" name="{{ form.name.name }}" placeholder="Title"></td>
                     <td><input type="number" name="{{ form.units.name }}" placeholder="Units"></td>
                     <td><button class="btn btn-primary " type="submit">Add</button></td>
                     </form>

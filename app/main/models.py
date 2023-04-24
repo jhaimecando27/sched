@@ -16,74 +16,72 @@ WEEK_DAY_CHOICES = (
     ('SUN', 'Sunday'),
 )
 
-COLLEGE_CHOICES = (
-    ('CET', 'College of Engineering and Technology'),
-)
-
-COURSE_CHOICES = (
-    ('BSCS', 'Bachelor of Science in Computer Science'),
-
-    ('BSCHE', 'Bachelor of Science in Chemical Engineering'),
-
-    ('BSCE', 'Bachelor of Science in Civil Engineering'),
-)
-
-
-class extendUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_chairperson = models.BooleanField(default=False)
-    is_professor = models.BooleanField(default=False)
-
 
 class Department(models.Model):
     code = models.CharField(max_length=20, unique=True)
-    title = models.CharField(max_length=80, unique=True)
+    name = models.CharField(max_length=80, unique=True)
 
     def __str__(self):
         return self.code
 
 
 class Course(models.Model):
+    dept = models.ForeignKey(Department, on_delete=models.CASCADE)
     code = models.CharField(max_length=20, unique=True)
-    title = models.CharField(max_length=80, unique=True)
-    college_id = models.ForeignKey(Department, on_delete=models.CASCADE)
-    chairperson_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    num_blocks = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=80, unique=True)
+    num_blocks = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.code
 
 
 class Subject(models.Model):
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     code = models.CharField(max_length=20)
-    title = models.CharField(max_length=64)
-    units = models.IntegerField(default=False)
+    name = models.CharField(max_length=64)
+    units = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.code
 
 
 class Room(models.Model):
-    bldg_initials = models.CharField(max_length=100)
+    bldg_code = models.CharField(max_length=100)
     bldg_name = models.CharField(max_length=100)
     room_num = models.IntegerField()
 
+    def __str__(self):
+        return self.bldg_code
+
+
+class Chairperson(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+
+class Professor(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    employment_status = models.CharField(
+        choices=EMPLOYMENT_TYPE_CHOICES, max_length=40)
+    expertise = models.CharField(default="None", max_length=64)
+    total_units = models.IntegerField(default=False)
+
+
+class Preference(models.Model):
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    week_day = models.CharField(
+        choices=WEEK_DAY_CHOICES, max_length=40)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
 
 class Schedule(models.Model):
-    subject_id = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    chairperson = models.ForeignKey(Chairperson, on_delete=models.CASCADE)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     block_number = models.IntegerField()
-    week_day = models.CharField(choices=WEEK_DAY_CHOICES, max_length=3)
-    day_time = models.TimeField()
-    room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
-
-
-class Faculty(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    employment_status = models.CharField(
-        choices=EMPLOYMENT_TYPE_CHOICES, max_length=10)
-    schedule_id = models.ForeignKey(
-        Schedule, on_delete=models.CASCADE, blank=True, null=True)
-    total_units = models.IntegerField(blank=True, null=True)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
-
-
-class Availability(models.Model):
-    faculty_id = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     week_day = models.CharField(choices=WEEK_DAY_CHOICES, max_length=3)
     start_time = models.TimeField()
     end_time = models.TimeField()

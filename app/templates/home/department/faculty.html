@@ -39,13 +39,13 @@
             <th>Total Units</th>
         </thead>
         <tbody style="overflow-y: scroll;">
-            {% for faculty in list_faculty %}
+            {% for prof in list_prof %}
             <tr>
-                <td>{{ faculty.school_id }}</td>
-                <td>{{ faculty.name }}</td>
-                <td>{{ faculty.employment_status }}</td>
-                <td>{{ faculty.expertise }}</td>
-                <td>{{ faculty.total_units }}</td>
+                <td>{{ prof.user.username }}</td>
+                <td>{{ prof.user.first_name }}</td>
+                <td>{{ prof.employment_status }}</td>
+                <td>{{ prof.expertise }}</td>
+                <td>{{ prof.total_units }}</td>
             </tr>
             {% endfor %}
         </tbody>

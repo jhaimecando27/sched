@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
-from main.models import extendUser
+from main.models import Professor, Chairperson
 
 
 # Ref 1: https://docs.djangoproject.com/en/4.1/topics/auth/default/#how-to-log-a-user-in
@@ -35,10 +35,11 @@ def login_user(request):
             if user is not None:
                 login(request, user)
 
-                status = extendUser.objects.get(user=request.user.id)
+                if Professor.objects.filter(user=request.user.id).exists():
+                    request.session['is_professor'] = True
 
-                request.session['is_chairperson'] = status.is_chairperson
-                request.session['is_professor'] = status.is_professor
+                if Chairperson.objects.filter(user=request.user.id).exists():
+                    request.session['is_chairperson'] = True
 
                 return redirect('main:profile')
                 # return redirect('home')

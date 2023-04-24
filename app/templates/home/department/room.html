@@ -42,7 +42,7 @@
                 <form action="{% url 'main:del_room' room.id %}" method="post">
                 {% csrf_token %}
                 <tr>
-                    <td>{{ room.bldg_initials }}</td>
+                    <td>{{ room.bldg_code }}</td>
                     <td>{{ room.bldg_name }}</td>
                     <td>{{ room.room_num }}</td>
                     <td><button class="btn btn-primary " type="submit">Remove</button></td>
@@ -53,7 +53,7 @@
                 <tr>
                     <form action="{% url 'main:room' %}" method="post">
                     {% csrf_token %}
-                    <td><input type="text" name="{{ form.bldg_initials.name }}" placeholder="Bldg Initials"></td>
+                    <td><input type="text" name="{{ form.bldg_code.name }}" placeholder="Bldg Initials"></td>
                     <td><input type="text" name="{{ form.bldg_name.name }}" placeholder="Bldg Name"></td>
                     <td><input type="number" name="{{ form.room_num.name }}" placeholder="Room number"></td>
                     <td><button class="btn btn-primary " type="submit">Add</button></td>

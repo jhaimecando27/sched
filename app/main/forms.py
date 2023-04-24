@@ -1,52 +1,52 @@
 from django import forms
-from .models import Course, Faculty, Department, Subject, Room, Availability, EMPLOYMENT_TYPE_CHOICES, COLLEGE_CHOICES
+from .models import Course, Department, Subject, Room, EMPLOYMENT_TYPE_CHOICES
 
 
-class FacultyForm(forms.ModelForm):
-    course_id = forms.ModelChoiceField(
-        Course.objects.all(), empty_label="test")
-    employment_status = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=EMPLOYMENT_TYPE_CHOICES)
-
-    class Meta:
-        model = Faculty
-        fields = ['college_id', 'course_id',
-                  'employment_status', 'name', 'school_id', 'expertise']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['course_id'].queryset = Course.objects.none()
-
-        if 'college_id' in self.data:
-            try:
-                college_id = int(self.data.get('college_id'))
-                self.fields['course_id'].queryset = Course.objects.filter(
-                    college_id=college_id).order_by('college_id')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['course_id'].queryset = self.instance.department.course
-
-
-class AvailabilityForm(forms.ModelForm):
-    class Meta:
-        model = Availability
-        fields = ['week_day', 'start_time', 'end_time']
+#class FacultyForm(forms.ModelForm):
+#    course_id = forms.ModelChoiceField(
+#        Course.objects.all(), empty_label="test")
+#    employment_status = forms.ChoiceField(
+#        widget=forms.RadioSelect, choices=EMPLOYMENT_TYPE_CHOICES)
+#
+#    class Meta:
+#        model = Faculty
+#        fields = ['college_id', 'course_id',
+#                  'employment_status', 'name', 'school_id', 'expertise']
+#
+#    def __init__(self, *args, **kwargs):
+#        super().__init__(*args, **kwargs)
+#        self.fields['course_id'].queryset = Course.objects.none()
+#
+#        if 'college_id' in self.data:
+#            try:
+#                college_id = int(self.data.get('college_id'))
+#                self.fields['course_id'].queryset = Course.objects.filter(
+#                    college_id=college_id).order_by('college_id')
+#            except (ValueError, TypeError):
+#                pass  # invalid input from the client; ignore and fallback to empty City queryset
+#        elif self.instance.pk:
+#            self.fields['course_id'].queryset = self.instance.department.course
+#
+#
+#class AvailabilityForm(forms.ModelForm):
+#    class Meta:
+#        model = Availability
+#        fields = ['week_day', 'start_time', 'end_time']
 
 
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ['code', 'title', 'units']
+        fields = ['code', 'name', 'units']
 
 
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ['bldg_initials', 'bldg_name', 'room_num']
+        fields = ['bldg_code', 'bldg_name', 'room_num']
 
 
-class CourseForm(forms.ModelForm):
+class BlockForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['num_blocks']
