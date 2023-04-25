@@ -65,7 +65,7 @@ class Professor(models.Model):
     employment_status = models.CharField(
         choices=EMPLOYMENT_TYPE_CHOICES, max_length=40)
     expertise = models.CharField(default="None", max_length=64)
-    total_units = models.IntegerField(default=False)
+    total_units = models.IntegerField(default=0)
 
 
 class Preference(models.Model):
