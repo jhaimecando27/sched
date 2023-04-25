@@ -147,8 +147,7 @@ def faculty(request):
     current_user = request.user
     course = Course.objects.filter(chairperson=current_user.id).first()
     college = Department.objects.get(id=course.dept.id)
-    list_prof = Professor.objects.filter(
-        id=course.id).select_related('user')
+    list_prof = Professor.objects.filter(course=course.id)
 
     context = {
         'list_prof': list_prof,
