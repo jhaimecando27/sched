@@ -1,3 +1,6 @@
+> **Warning**
+Switch to another web stack [here](https://github.com/hijacque/class_timetable_web)
+
 ## Requirement
 1. [Python 3](https://www.python.org/)
 
